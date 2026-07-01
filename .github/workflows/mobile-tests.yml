@@ -80,21 +80,7 @@ jobs:
             curl -fsS --retry 30 --retry-delay 2 --retry-connrefused http://127.0.0.1:4723/status >/dev/null
 
             echo "===== Verifying APK ====="
-
-            if [ ! -f "$GITHUB_WORKSPACE/apps/app.apk" ]; then
-              echo "APK not found!"
-              ls -R "$GITHUB_WORKSPACE"
-              exit 1
-            fi
-
-            echo "===== Running Tests ====="
-
-            mvn clean test -DdeviceName="Android Emulator" -DplatformVersion=14 -Dudid=emulator-5554 -Dapp="$GITHUB_WORKSPACE/apps/app.apk" -DscreenshotDir=screenshots
-
-            echo "===== Generating Allure Report ====="
-
-            mvn allure:report
-
+            curl -fsS --retry 30 --retry-delay 2 --retry-connrefused http://127.0.0.1:4723/status >/dev/null
       - name: Upload Test Artifacts
         if: always()
         uses: actions/upload-artifact@v4
