@@ -74,11 +74,7 @@ jobs:
             adb shell getprop ro.product.model
 
             echo "===== Starting Appium ====="
-            appium \
-              --address 127.0.0.1 \
-              --port 4723 \
-              --base-path / \
-              --log appium.log > appium-console.log 2>&1 &
+            appium --address 127.0.0.1 --port 4723 --base-path / --log appium.log > appium-console.log 2>&1 &
 
             echo "===== Waiting for Appium ====="
 
@@ -107,12 +103,7 @@ jobs:
 
             echo "===== Running Tests ====="
 
-            mvn clean test \
-              -DdeviceName="Android Emulator" \
-              -DplatformVersion=14 \
-              -Dudid=emulator-5554 \
-              -Dapp="$GITHUB_WORKSPACE/apps/app.apk" \
-              -DscreenshotDir=screenshots
+            mvn clean test -DdeviceName="Android Emulator" -DplatformVersion=14 -Dudid=emulator-5554 -Dapp="$GITHUB_WORKSPACE/apps/app.apk" -DscreenshotDir=screenshots
 
             echo "===== Generating Allure Report ====="
 
