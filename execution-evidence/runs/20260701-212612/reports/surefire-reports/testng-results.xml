@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="6" passed="6" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2026-07-01T21:26:15 IST" name="Surefire suite" finished-at="2026-07-01T21:27:57 IST" duration-ms="101713">
+    <groups>
+      <group name="cucumber">
+        <method signature="AbstractTestNGCucumberTests.runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:com.tui.qa.runner.TestRunner@5e2c3d18]" name="runScenario" class="io.cucumber.testng.AbstractTestNGCucumberTests"/>
+      </group> <!-- cucumber -->
+    </groups>
+    <test started-at="2026-07-01T21:26:15 IST" name="Surefire test" finished-at="2026-07-01T21:27:57 IST" duration-ms="101713">
+      <class name="com.tui.qa.runner.TestRunner">
+        <test-method is-config="true" signature="setUpClass(org.testng.ITestContext)[pri:0, instance:com.tui.qa.runner.TestRunner@5e2c3d18]" started-at="2026-07-01T21:26:21 IST" name="setUpClass" finished-at="2026-07-01T21:26:21 IST" duration-ms="291" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[org.testng.TestRunner@3d4818e8]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUpClass -->
+        <test-method signature="runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:com.tui.qa.runner.TestRunner@5e2c3d18]" started-at="2026-07-01T21:26:21 IST" name="runScenario" description="Runs Cucumber Scenarios" data-provider="scenarios" finished-at="2026-07-01T21:26:35 IST" duration-ms="13697" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA["Login with valid user details"]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA["Login"]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- runScenario -->
+        <test-method signature="runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:com.tui.qa.runner.TestRunner@5e2c3d18]" started-at="2026-07-01T21:26:35 IST" name="runScenario" description="Runs Cucumber Scenarios" data-provider="scenarios" finished-at="2026-07-01T21:26:49 IST" duration-ms="14526" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA["Verify Hotels tab"]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA["Search Results"]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- runScenario -->
+        <test-method signature="runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:com.tui.qa.runner.TestRunner@5e2c3d18]" started-at="2026-07-01T21:26:49 IST" name="runScenario" description="Runs Cucumber Scenarios" data-provider="scenarios" finished-at="2026-07-01T21:27:16 IST" duration-ms="26805" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA["Verify Holidays tab"]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA["Search Results"]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- runScenario -->
+        <test-method signature="runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:com.tui.qa.runner.TestRunner@5e2c3d18]" started-at="2026-07-01T21:27:16 IST" name="runScenario" description="Runs Cucumber Scenarios" data-provider="scenarios" finished-at="2026-07-01T21:27:42 IST" duration-ms="26167" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA["Verify All tab"]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA["Search Results"]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- runScenario -->
+        <test-method signature="runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:com.tui.qa.runner.TestRunner@5e2c3d18]" started-at="2026-07-01T21:27:42 IST" name="runScenario" description="Runs Cucumber Scenarios" data-provider="scenarios" finished-at="2026-07-01T21:27:57 IST" duration-ms="15063" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA["Verify hotel lazy loading"]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA["Search Results"]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- runScenario -->
+        <test-method is-config="true" signature="tearDownClass()[pri:0, instance:com.tui.qa.runner.TestRunner@5e2c3d18]" started-at="2026-07-01T21:27:57 IST" name="tearDownClass" finished-at="2026-07-01T21:27:57 IST" duration-ms="51" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDownClass -->
+      </class> <!-- com.tui.qa.runner.TestRunner -->
+      <class name="com.tui.qa.test.DriverTest">
+        <test-method signature="launchDriver()[pri:0, instance:com.tui.qa.test.DriverTest@2cf3d63b]" started-at="2026-07-01T21:26:15 IST" name="launchDriver" finished-at="2026-07-01T21:26:20 IST" duration-ms="4763" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- launchDriver -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.tui.qa.test.DriverTest@2cf3d63b]" started-at="2026-07-01T21:26:20 IST" name="tearDown" finished-at="2026-07-01T21:26:21 IST" duration-ms="257" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+      </class> <!-- com.tui.qa.test.DriverTest -->
+    </test> <!-- Surefire test -->
+  </suite> <!-- Surefire suite -->
+</testng-results>

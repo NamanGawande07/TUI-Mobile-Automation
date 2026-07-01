@@ -1,0 +1,39 @@
+# Maven
+target/
+
+# IntelliJ
+.idea/
+*.iml
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store
+
+# Logs
+logs/
+*.log
+
+# Reports
+reports/cucumber/
+reports/screenshots/
+
+# Test Output
+test-output/
+
+# Allure
+allure-results/
+allure-report/
+
+# Appium
+*.tmp
+
+# Java
+*.class
+
+# Environment
+.env
+
+# OS Files
+Thumbs.db
