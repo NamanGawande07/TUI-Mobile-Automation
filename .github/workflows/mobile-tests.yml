@@ -2,34 +2,34 @@ name: Mobile Tests
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [main, master]
   pull_request:
-    branches: [ main, master ]
+    branches: [main, master]
   workflow_dispatch:
 
 jobs:
   android-tests:
     name: Android UI Tests
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     timeout-minutes: 45
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '17'
+          java-version: "17"
           cache: maven
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: "22"
 
-      - name: Install Appium and UiAutomator2 driver
+      - name: Install Appium
         run: |
           npm install -g appium@latest
           appium driver install uiautomator2
@@ -38,60 +38,99 @@ jobs:
 
       - name: Enable KVM
         run: |
-          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm.rules
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
 
-      - name: Run tests on Android emulator
+      - name: Run tests on Android Emulator
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 34
           target: google_apis
           arch: x86_64
-          profile: pixel
+          profile: pixel_4
+          force-avd-creation: true
           emulator-boot-timeout: 900
-          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -camera-front none -no-snapshot-save
           disable-linux-hw-accel: false
           disable-animations: true
+          emulator-options: >
+            -no-window
+            -gpu swiftshader_indirect
+            -noaudio
+            -no-boot-anim
           script: |
-            set -eu
-            adb kill-server
-            adb start-server
-            adb wait-for-device
+            set -e
+
+            echo "===== ADB Devices ====="
             adb devices
-            appium --port 4723 --log appium.log > appium-console.log 2>&1 &
-            i=1
-            while [ "$i" -le 20 ]; do
-              if curl -fsS http://127.0.0.1:4723/status >/dev/null; then
+
+            echo "===== Waiting for Android Boot ====="
+            until adb shell getprop sys.boot_completed | grep -q "1"; do
+              sleep 5
+            done
+
+            adb shell input keyevent 82 || true
+
+            echo "===== Device Information ====="
+            adb shell getprop ro.build.version.release
+            adb shell getprop ro.product.model
+
+            echo "===== Starting Appium ====="
+            appium \
+              --address 127.0.0.1 \
+              --port 4723 \
+              --base-path / \
+              --log appium.log > appium-console.log 2>&1 &
+
+            echo "===== Waiting for Appium ====="
+
+            for i in $(seq 1 30); do
+              if curl -fs http://127.0.0.1:4723/status >/dev/null; then
+                echo "Appium is ready."
                 break
               fi
-              if [ "$i" -eq 20 ]; then
-                echo "Appium did not become ready in time" >&2
+
+              if [ "$i" -eq 30 ]; then
+                echo "Appium failed to start."
+                cat appium.log || true
                 exit 1
               fi
-              i=$((i + 1))
+
               sleep 2
             done
-            test -f "$GITHUB_WORKSPACE/apps/app.apk"
+
+            echo "===== Verifying APK ====="
+
+            if [ ! -f "$GITHUB_WORKSPACE/apps/app.apk" ]; then
+              echo "APK not found!"
+              ls -R "$GITHUB_WORKSPACE"
+              exit 1
+            fi
+
+            echo "===== Running Tests ====="
+
             mvn clean test \
-              -DdeviceName=AndroidEmulator \
+              -DdeviceName="Android Emulator" \
+              -DplatformVersion=14 \
               -Dudid=emulator-5554 \
-              -DplatformVersion=15 \
               -Dapp="$GITHUB_WORKSPACE/apps/app.apk" \
               -DscreenshotDir=screenshots
+
+            echo "===== Generating Allure Report ====="
+
             mvn allure:report
 
-      - name: Upload test artifacts
+      - name: Upload Test Artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: mobile-test-artifacts
+          if-no-files-found: warn
           path: |
-            reports/cucumber/**
             target/surefire-reports/**
             target/allure-results/**
             target/site/allure-maven-plugin/**
+            reports/**
             screenshots/**
             appium.log
             appium-console.log
-          if-no-files-found: warn
