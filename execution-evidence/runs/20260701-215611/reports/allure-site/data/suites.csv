@@ -1,0 +1,9 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"passed","Wed Jul 01 21:56:35 IST 2026","Wed Jul 01 21:56:50 IST 2026","14396","","Search Results","","Verify Hotels tab","","Verify Hotels tab",""
+"passed","Wed Jul 01 21:56:21 IST 2026","Wed Jul 01 21:56:35 IST 2026","14577","","Login","","Login with valid user details","","Login with valid user details","  As a TUI user
+  I want to login to the application
+  So that I can view travel search results"
+"passed","Wed Jul 01 21:57:42 IST 2026","Wed Jul 01 21:57:59 IST 2026","16739","","Search Results","","Verify hotel lazy loading","","Verify hotel lazy loading",""
+"passed","Wed Jul 01 21:56:50 IST 2026","Wed Jul 01 21:57:16 IST 2026","26112","","Search Results","","Verify Holidays tab","","Verify Holidays tab",""
+"passed","Wed Jul 01 21:56:14 IST 2026","Wed Jul 01 21:56:20 IST 2026","5660","Surefire suite","Surefire test","com.tui.qa.test.DriverTest","com.tui.qa.test.DriverTest","launchDriver","launchDriver",""
+"passed","Wed Jul 01 21:57:16 IST 2026","Wed Jul 01 21:57:42 IST 2026","26268","","Search Results","","Verify All tab","","Verify All tab",""

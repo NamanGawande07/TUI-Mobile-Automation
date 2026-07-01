@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="TestSuite" time="104.874" tests="6" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="java.specification.version" value="23"/>
+    <property name="sun.jnu.encoding" value="UTF-8"/>
+    <property name="java.class.path" value="/Users/KS26642/IdeaProjects/TUI-Mobile-Automation/target/test-classes:/Users/KS26642/IdeaProjects/TUI-Mobile-Automation/target/classes:/Users/KS26642/.m2/repository/io/appium/java-client/8.6.0/java-client-8.6.0.jar:/Users/KS26642/.m2/repository/org/seleniumhq/selenium/selenium-api/4.13.0/selenium-api-4.13.0.jar:/Users/KS26642/.m2/repository/org/seleniumhq/selenium/selenium-remote-driver/4.13.0/selenium-remote-driver-4.13.0.jar:/Users/KS26642/.m2/repository/com/google/auto/service/auto-service-annotations/1.1.1/auto-service-annotations-1.1.1.jar:/Users/KS26642/.m2/repository/com/google/guava/guava/32.1.2-jre/guava-32.1.2-jre.jar:/Users/KS26642/.m2/repository/com/google/guava/failureaccess/1.0.1/failureaccess-1.0.1.jar:/Users/KS26642/.m2/repository/com/google/guava/listenablefuture/9999.0-empty-to-avoid-conflict-with-guava/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar:/Users/KS26642/.m2/repository/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2.jar:/Users/KS26642/.m2/repository/org/checkerframework/checker-qual/3.33.0/checker-qual-3.33.0.jar:/Users/KS26642/.m2/repository/com/google/errorprone/error_prone_annotations/2.18.0/error_prone_annotations-2.18.0.jar:/Users/KS26642/.m2/repository/com/google/j2objc/j2objc-annotations/2.8/j2objc-annotations-2.8.jar:/Users/KS26642/.m2/repository/io/netty/netty-buffer/4.1.96.Final/netty-buffer-4.1.96.Final.jar:/Users/KS26642/.m2/repository/io/netty/netty-codec-http/4.1.96.Final/netty-codec-http-4.1.96.Final.jar:/Users/KS26642/.m2/repository/io/netty/netty-codec/4.1.96.Final/netty-codec-4.1.96.Final.jar:/Users/KS26642/.m2/repository/io/netty/netty-handler/4.1.96.Final/netty-handler-4.1.96.Final.jar:/Users/KS26642/.m2/repository/io/netty/netty-common/4.1.96.Final/netty-common-4.1.96.Final.jar:/Users/KS26642/.m2/repository/io/netty/netty-transport-classes-epoll/4.1.96.Final/netty-transport-classes-epoll-4.1.96.Final.jar:/Users/KS26642/.m2/repository/io/netty/netty-transport-classes-kqueue/4.1.96.Final/netty-transport-classes-kqueue-4.1.96.Final.jar:/Users/KS26642/.m2/repository/io/netty/netty-transport-native-epoll/4.1.96.Final/netty-transport-native-epoll-4.1.96.Final.jar:/Users/KS26642/.m2/repository/io/netty/netty-transport-native-kqueue/4.1.96.Final/netty-transport-native-kqueue-4.1.96.Final.jar:/Users/KS26642/.m2/repository/io/netty/netty-transport-native-unix-common/4.1.96.Final/netty-transport-native-unix-common-4.1.96.Final.jar:/Users/KS26642/.m2/repository/io/netty/netty-transport/4.1.96.Final/netty-transport-4.1.96.Final.jar:/Users/KS26642/.m2/repository/io/netty/netty-resolver/4.1.96.Final/netty-resolver-4.1.96.Final.jar:/Users/KS26642/.m2/repository/io/opentelemetry/opentelemetry-api/1.28.0/opentelemetry-api-1.28.0.jar:/Users/KS26642/.m2/repository/io/opentelemetry/opentelemetry-context/1.28.0/opentelemetry-context-1.28.0.jar:/Users/KS26642/.m2/repository/io/opentelemetry/opentelemetry-exporter-logging/1.28.0/opentelemetry-exporter-logging-1.28.0.jar:/Users/KS26642/.m2/repository/io/opentelemetry/opentelemetry-sdk-metrics/1.28.0/opentelemetry-sdk-metrics-1.28.0.jar:/Users/KS26642/.m2/repository/io/opentelemetry/opentelemetry-extension-incubator/1.28.0-alpha/opentelemetry-extension-incubator-1.28.0-alpha.jar:/Users/KS26642/.m2/repository/io/opentelemetry/opentelemetry-sdk-logs/1.28.0/opentelemetry-sdk-logs-1.28.0.jar:/Users/KS26642/.m2/repository/io/opentelemetry/opentelemetry-sdk-common/1.28.0/opentelemetry-sdk-common-1.28.0.jar:/Users/KS26642/.m2/repository/io/opentelemetry/opentelemetry-sdk-extension-autoconfigure-spi/1.28.0/opentelemetry-sdk-extension-autoconfigure-spi-1.28.0.jar:/Users/KS26642/.m2/repository/io/opentelemetry/opentelemetry-sdk-extension-autoconfigure/1.28.0/opentelemetry-sdk-extension-autoconfigure-1.28.0.jar:/Users/KS26642/.m2/repository/io/opentelemetry/opentelemetry-api-events/1.28.0-alpha/opentelemetry-api-events-1.28.0-alpha.jar:/Users/KS26642/.m2/repository/io/opentelemetry/opentelemetry-sdk-trace/1.28.0/opentelemetry-sdk-trace-1.28.0.jar:/Users/KS26642/.m2/repository/io/opentelemetry/opentelemetry-sdk/1.28.0/opentelemetry-sdk-1.28.0.jar:/Users/KS26642/.m2/repository/io/opentelemetry/opentelemetry-semconv/1.28.0-alpha/opentelemetry-semconv-1.28.0-alpha.jar:/Users/KS26642/.m2/repository/net/bytebuddy/byte-buddy/1.14.5/byte-buddy-1.14.5.jar:/Users/KS26642/.m2/repository/org/asynchttpclient/async-http-client/2.12.3/async-http-client-2.12.3.jar:/Users/KS26642/.m2/repository/org/asynchttpclient/async-http-client-netty-utils/2.12.3/async-http-client-netty-utils-2.12.3.jar:/Users/KS26642/.m2/repository/io/netty/netty-codec-socks/4.1.60.Final/netty-codec-socks-4.1.60.Final.jar:/Users/KS26642/.m2/repository/io/netty/netty-handler-proxy/4.1.60.Final/netty-handler-proxy-4.1.60.Final.jar:/Users/KS26642/.m2/repository/io/netty/netty-transport-native-epoll/4.1.60.Final/netty-transport-native-epoll-4.1.60.Final-linux-x86_64.jar:/Users/KS26642/.m2/repository/io/netty/netty-transport-native-kqueue/4.1.60.Final/netty-transport-native-kqueue-4.1.60.Final-osx-x86_64.jar:/Users/KS26642/.m2/repository/org/reactivestreams/reactive-streams/1.0.3/reactive-streams-1.0.3.jar:/Users/KS26642/.m2/repository/com/typesafe/netty/netty-reactive-streams/2.0.4/netty-reactive-streams-2.0.4.jar:/Users/KS26642/.m2/repository/com/sun/activation/jakarta.activation/1.2.2/jakarta.activation-1.2.2.jar:/Users/KS26642/.m2/repository/org/seleniumhq/selenium/selenium-http/4.13.0/selenium-http-4.13.0.jar:/Users/KS26642/.m2/repository/dev/failsafe/failsafe/3.3.2/failsafe-3.3.2.jar:/Users/KS26642/.m2/repository/org/seleniumhq/selenium/selenium-json/4.13.0/selenium-json-4.13.0.jar:/Users/KS26642/.m2/repository/org/seleniumhq/selenium/selenium-manager/4.13.0/selenium-manager-4.13.0.jar:/Users/KS26642/.m2/repository/org/seleniumhq/selenium/selenium-os/4.13.0/selenium-os-4.13.0.jar:/Users/KS26642/.m2/repository/org/apache/commons/commons-exec/1.3/commons-exec-1.3.jar:/Users/KS26642/.m2/repository/org/seleniumhq/selenium/selenium-support/4.13.0/selenium-support-4.13.0.jar:/Users/KS26642/.m2/repository/com/google/code/gson/gson/2.10.1/gson-2.10.1.jar:/Users/KS26642/.m2/repository/org/slf4j/slf4j-api/2.0.9/slf4j-api-2.0.9.jar:/Users/KS26642/.m2/repository/org/seleniumhq/selenium/selenium-java/4.8.0/selenium-java-4.8.0.jar:/Users/KS26642/.m2/repository/org/seleniumhq/selenium/selenium-chrome-driver/4.8.0/selenium-chrome-driver-4.8.0.jar:/Users/KS26642/.m2/repository/com/google/auto/service/auto-service/1.0.1/auto-service-1.0.1.jar:/Users/KS26642/.m2/repository/com/google/auto/auto-common/1.2/auto-common-1.2.jar:/Users/KS26642/.m2/repository/org/seleniumhq/selenium/selenium-chromium-driver/4.8.0/selenium-chromium-driver-4.8.0.jar:/Users/KS26642/.m2/repository/org/seleniumhq/selenium/selenium-devtools-v107/4.8.0/selenium-devtools-v107-4.8.0.jar:/Users/KS26642/.m2/repository/org/seleniumhq/selenium/selenium-devtools-v108/4.8.0/selenium-devtools-v108-4.8.0.jar:/Users/KS26642/.m2/repository/org/seleniumhq/selenium/selenium-devtools-v109/4.8.0/selenium-devtools-v109-4.8.0.jar:/Users/KS26642/.m2/repository/org/seleniumhq/selenium/selenium-devtools-v85/4.8.0/selenium-devtools-v85-4.8.0.jar:/Users/KS26642/.m2/repository/org/seleniumhq/selenium/selenium-edge-driver/4.8.0/selenium-edge-driver-4.8.0.jar:/Users/KS26642/.m2/repository/org/seleniumhq/selenium/selenium-firefox-driver/4.8.0/selenium-firefox-driver-4.8.0.jar:/Users/KS26642/.m2/repository/org/seleniumhq/selenium/selenium-ie-driver/4.8.0/selenium-ie-driver-4.8.0.jar:/Users/KS26642/.m2/repository/org/seleniumhq/selenium/selenium-safari-driver/4.8.0/selenium-safari-driver-4.8.0.jar:/Users/KS26642/.m2/repository/org/testng/testng/7.10.2/testng-7.10.2.jar:/Users/KS26642/.m2/repository/com/beust/jcommander/1.82/jcommander-1.82.jar:/Users/KS26642/.m2/repository/org/webjars/jquery/3.7.1/jquery-3.7.1.jar:/Users/KS26642/.m2/repository/io/cucumber/cucumber-java/7.18.1/cucumber-java-7.18.1.jar:/Users/KS26642/.m2/repository/io/cucumber/cucumber-core/7.18.1/cucumber-core-7.18.1.jar:/Users/KS26642/.m2/repository/io/cucumber/cucumber-gherkin/7.18.1/cucumber-gherkin-7.18.1.jar:/Users/KS26642/.m2/repository/io/cucumber/cucumber-gherkin-messages/7.18.1/cucumber-gherkin-messages-7.18.1.jar:/Users/KS26642/.m2/repository/io/cucumber/gherkin/28.0.0/gherkin-28.0.0.jar:/Users/KS26642/.m2/repository/io/cucumber/messages/24.1.0/messages-24.1.0.jar:/Users/KS26642/.m2/repository/io/cucumber/testng-xml-formatter/0.2.0/testng-xml-formatter-0.2.0.jar:/Users/KS26642/.m2/repository/io/cucumber/query/12.2.0/query-12.2.0.jar:/Users/KS26642/.m2/repository/io/cucumber/tag-expressions/6.1.0/tag-expressions-6.1.0.jar:/Users/KS26642/.m2/repository/io/cucumber/cucumber-expressions/17.1.0/cucumber-expressions-17.1.0.jar:/Users/KS26642/.m2/repository/io/cucumber/datatable/7.18.1/datatable-7.18.1.jar:/Users/KS26642/.m2/repository/io/cucumber/cucumber-plugin/7.18.1/cucumber-plugin-7.18.1.jar:/Users/KS26642/.m2/repository/io/cucumber/docstring/7.18.1/docstring-7.18.1.jar:/Users/KS26642/.m2/repository/io/cucumber/html-formatter/21.4.1/html-formatter-21.4.1.jar:/Users/KS26642/.m2/repository/io/cucumber/junit-xml-formatter/0.5.0/junit-xml-formatter-0.5.0.jar:/Users/KS26642/.m2/repository/io/cucumber/ci-environment/10.0.1/ci-environment-10.0.1.jar:/Users/KS26642/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/KS26642/.m2/repository/io/cucumber/cucumber-testng/7.18.1/cucumber-testng-7.18.1.jar:/Users/KS26642/.m2/repository/io/qameta/allure/allure-cucumber7-jvm/2.29.1/allure-cucumber7-jvm-2.29.1.jar:/Users/KS26642/.m2/repository/io/qameta/allure/allure-java-commons/2.29.1/allure-java-commons-2.29.1.jar:/Users/KS26642/.m2/repository/io/qameta/allure/allure-model/2.29.1/allure-model-2.29.1.jar:/Users/KS26642/.m2/repository/io/qameta/allure/allure-testng/2.29.1/allure-testng-2.29.1.jar:/Users/KS26642/.m2/repository/io/qameta/allure/allure-test-filter/2.29.1/allure-test-filter-2.29.1.jar:/Users/KS26642/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.17.2/jackson-databind-2.17.2.jar:/Users/KS26642/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.17.2/jackson-annotations-2.17.2.jar:/Users/KS26642/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.17.2/jackson-core-2.17.2.jar:/Users/KS26642/.m2/repository/org/apache/commons/commons-lang3/3.17.0/commons-lang3-3.17.0.jar:/Users/KS26642/.m2/repository/org/apache/logging/log4j/log4j-api/2.24.3/log4j-api-2.24.3.jar:/Users/KS26642/.m2/repository/org/apache/logging/log4j/log4j-core/2.24.3/log4j-core-2.24.3.jar:/Users/KS26642/.m2/repository/commons-io/commons-io/2.18.0/commons-io-2.18.0.jar:"/>
+    <property name="java.vm.vendor" value="Oracle Corporation"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="screenshotDir" value="execution-evidence/runs/20260701-215611/screenshots"/>
+    <property name="java.vendor.url" value="https://java.oracle.com/"/>
+    <property name="user.timezone" value="Asia/Kolkata"/>
+    <property name="os.name" value="Mac OS X"/>
+    <property name="java.vm.specification.version" value="23"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="IN"/>
+    <property name="sun.boot.library.path" value="/Library/Java/JavaVirtualMachines/jdk-23.jdk/Contents/Home/lib"/>
+    <property name="sun.java.command" value="/Users/KS26642/IdeaProjects/TUI-Mobile-Automation/target/surefire/surefirebooter-20260701215614348_3.jar /Users/KS26642/IdeaProjects/TUI-Mobile-Automation/target/surefire 2026-07-01T21-56-14_307-jvmRun1 surefire-20260701215614348_1tmp surefire_0-20260701215614348_2tmp"/>
+    <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="surefire.test.class.path" value="/Users/KS26642/IdeaProjects/TUI-Mobile-Automation/target/test-classes:/Users/KS26642/IdeaProjects/TUI-Mobile-Automation/target/classes:/Users/KS26642/.m2/repository/io/appium/java-client/8.6.0/java-client-8.6.0.jar:/Users/KS26642/.m2/repository/org/seleniumhq/selenium/selenium-api/4.13.0/selenium-api-4.13.0.jar:/Users/KS26642/.m2/repository/org/seleniumhq/selenium/selenium-remote-driver/4.13.0/selenium-remote-driver-4.13.0.jar:/Users/KS26642/.m2/repository/com/google/auto/service/auto-service-annotations/1.1.1/auto-service-annotations-1.1.1.jar:/Users/KS26642/.m2/repository/com/google/guava/guava/32.1.2-jre/guava-32.1.2-jre.jar:/Users/KS26642/.m2/repository/com/google/guava/failureaccess/1.0.1/failureaccess-1.0.1.jar:/Users/KS26642/.m2/repository/com/google/guava/listenablefuture/9999.0-empty-to-avoid-conflict-with-guava/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar:/Users/KS26642/.m2/repository/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2.jar:/Users/KS26642/.m2/repository/org/checkerframework/checker-qual/3.33.0/checker-qual-3.33.0.jar:/Users/KS26642/.m2/repository/com/google/errorprone/error_prone_annotations/2.18.0/error_prone_annotations-2.18.0.jar:/Users/KS26642/.m2/repository/com/google/j2objc/j2objc-annotations/2.8/j2objc-annotations-2.8.jar:/Users/KS26642/.m2/repository/io/netty/netty-buffer/4.1.96.Final/netty-buffer-4.1.96.Final.jar:/Users/KS26642/.m2/repository/io/netty/netty-codec-http/4.1.96.Final/netty-codec-http-4.1.96.Final.jar:/Users/KS26642/.m2/repository/io/netty/netty-codec/4.1.96.Final/netty-codec-4.1.96.Final.jar:/Users/KS26642/.m2/repository/io/netty/netty-handler/4.1.96.Final/netty-handler-4.1.96.Final.jar:/Users/KS26642/.m2/repository/io/netty/netty-common/4.1.96.Final/netty-common-4.1.96.Final.jar:/Users/KS26642/.m2/repository/io/netty/netty-transport-classes-epoll/4.1.96.Final/netty-transport-classes-epoll-4.1.96.Final.jar:/Users/KS26642/.m2/repository/io/netty/netty-transport-classes-kqueue/4.1.96.Final/netty-transport-classes-kqueue-4.1.96.Final.jar:/Users/KS26642/.m2/repository/io/netty/netty-transport-native-epoll/4.1.96.Final/netty-transport-native-epoll-4.1.96.Final.jar:/Users/KS26642/.m2/repository/io/netty/netty-transport-native-kqueue/4.1.96.Final/netty-transport-native-kqueue-4.1.96.Final.jar:/Users/KS26642/.m2/repository/io/netty/netty-transport-native-unix-common/4.1.96.Final/netty-transport-native-unix-common-4.1.96.Final.jar:/Users/KS26642/.m2/repository/io/netty/netty-transport/4.1.96.Final/netty-transport-4.1.96.Final.jar:/Users/KS26642/.m2/repository/io/netty/netty-resolver/4.1.96.Final/netty-resolver-4.1.96.Final.jar:/Users/KS26642/.m2/repository/io/opentelemetry/opentelemetry-api/1.28.0/opentelemetry-api-1.28.0.jar:/Users/KS26642/.m2/repository/io/opentelemetry/opentelemetry-context/1.28.0/opentelemetry-context-1.28.0.jar:/Users/KS26642/.m2/repository/io/opentelemetry/opentelemetry-exporter-logging/1.28.0/opentelemetry-exporter-logging-1.28.0.jar:/Users/KS26642/.m2/repository/io/opentelemetry/opentelemetry-sdk-metrics/1.28.0/opentelemetry-sdk-metrics-1.28.0.jar:/Users/KS26642/.m2/repository/io/opentelemetry/opentelemetry-extension-incubator/1.28.0-alpha/opentelemetry-extension-incubator-1.28.0-alpha.jar:/Users/KS26642/.m2/repository/io/opentelemetry/opentelemetry-sdk-logs/1.28.0/opentelemetry-sdk-logs-1.28.0.jar:/Users/KS26642/.m2/repository/io/opentelemetry/opentelemetry-sdk-common/1.28.0/opentelemetry-sdk-common-1.28.0.jar:/Users/KS26642/.m2/repository/io/opentelemetry/opentelemetry-sdk-extension-autoconfigure-spi/1.28.0/opentelemetry-sdk-extension-autoconfigure-spi-1.28.0.jar:/Users/KS26642/.m2/repository/io/opentelemetry/opentelemetry-sdk-extension-autoconfigure/1.28.0/opentelemetry-sdk-extension-autoconfigure-1.28.0.jar:/Users/KS26642/.m2/repository/io/opentelemetry/opentelemetry-api-events/1.28.0-alpha/opentelemetry-api-events-1.28.0-alpha.jar:/Users/KS26642/.m2/repository/io/opentelemetry/opentelemetry-sdk-trace/1.28.0/opentelemetry-sdk-trace-1.28.0.jar:/Users/KS26642/.m2/repository/io/opentelemetry/opentelemetry-sdk/1.28.0/opentelemetry-sdk-1.28.0.jar:/Users/KS26642/.m2/repository/io/opentelemetry/opentelemetry-semconv/1.28.0-alpha/opentelemetry-semconv-1.28.0-alpha.jar:/Users/KS26642/.m2/repository/net/bytebuddy/byte-buddy/1.14.5/byte-buddy-1.14.5.jar:/Users/KS26642/.m2/repository/org/asynchttpclient/async-http-client/2.12.3/async-http-client-2.12.3.jar:/Users/KS26642/.m2/repository/org/asynchttpclient/async-http-client-netty-utils/2.12.3/async-http-client-netty-utils-2.12.3.jar:/Users/KS26642/.m2/repository/io/netty/netty-codec-socks/4.1.60.Final/netty-codec-socks-4.1.60.Final.jar:/Users/KS26642/.m2/repository/io/netty/netty-handler-proxy/4.1.60.Final/netty-handler-proxy-4.1.60.Final.jar:/Users/KS26642/.m2/repository/io/netty/netty-transport-native-epoll/4.1.60.Final/netty-transport-native-epoll-4.1.60.Final-linux-x86_64.jar:/Users/KS26642/.m2/repository/io/netty/netty-transport-native-kqueue/4.1.60.Final/netty-transport-native-kqueue-4.1.60.Final-osx-x86_64.jar:/Users/KS26642/.m2/repository/org/reactivestreams/reactive-streams/1.0.3/reactive-streams-1.0.3.jar:/Users/KS26642/.m2/repository/com/typesafe/netty/netty-reactive-streams/2.0.4/netty-reactive-streams-2.0.4.jar:/Users/KS26642/.m2/repository/com/sun/activation/jakarta.activation/1.2.2/jakarta.activation-1.2.2.jar:/Users/KS26642/.m2/repository/org/seleniumhq/selenium/selenium-http/4.13.0/selenium-http-4.13.0.jar:/Users/KS26642/.m2/repository/dev/failsafe/failsafe/3.3.2/failsafe-3.3.2.jar:/Users/KS26642/.m2/repository/org/seleniumhq/selenium/selenium-json/4.13.0/selenium-json-4.13.0.jar:/Users/KS26642/.m2/repository/org/seleniumhq/selenium/selenium-manager/4.13.0/selenium-manager-4.13.0.jar:/Users/KS26642/.m2/repository/org/seleniumhq/selenium/selenium-os/4.13.0/selenium-os-4.13.0.jar:/Users/KS26642/.m2/repository/org/apache/commons/commons-exec/1.3/commons-exec-1.3.jar:/Users/KS26642/.m2/repository/org/seleniumhq/selenium/selenium-support/4.13.0/selenium-support-4.13.0.jar:/Users/KS26642/.m2/repository/com/google/code/gson/gson/2.10.1/gson-2.10.1.jar:/Users/KS26642/.m2/repository/org/slf4j/slf4j-api/2.0.9/slf4j-api-2.0.9.jar:/Users/KS26642/.m2/repository/org/seleniumhq/selenium/selenium-java/4.8.0/selenium-java-4.8.0.jar:/Users/KS26642/.m2/repository/org/seleniumhq/selenium/selenium-chrome-driver/4.8.0/selenium-chrome-driver-4.8.0.jar:/Users/KS26642/.m2/repository/com/google/auto/service/auto-service/1.0.1/auto-service-1.0.1.jar:/Users/KS26642/.m2/repository/com/google/auto/auto-common/1.2/auto-common-1.2.jar:/Users/KS26642/.m2/repository/org/seleniumhq/selenium/selenium-chromium-driver/4.8.0/selenium-chromium-driver-4.8.0.jar:/Users/KS26642/.m2/repository/org/seleniumhq/selenium/selenium-devtools-v107/4.8.0/selenium-devtools-v107-4.8.0.jar:/Users/KS26642/.m2/repository/org/seleniumhq/selenium/selenium-devtools-v108/4.8.0/selenium-devtools-v108-4.8.0.jar:/Users/KS26642/.m2/repository/org/seleniumhq/selenium/selenium-devtools-v109/4.8.0/selenium-devtools-v109-4.8.0.jar:/Users/KS26642/.m2/repository/org/seleniumhq/selenium/selenium-devtools-v85/4.8.0/selenium-devtools-v85-4.8.0.jar:/Users/KS26642/.m2/repository/org/seleniumhq/selenium/selenium-edge-driver/4.8.0/selenium-edge-driver-4.8.0.jar:/Users/KS26642/.m2/repository/org/seleniumhq/selenium/selenium-firefox-driver/4.8.0/selenium-firefox-driver-4.8.0.jar:/Users/KS26642/.m2/repository/org/seleniumhq/selenium/selenium-ie-driver/4.8.0/selenium-ie-driver-4.8.0.jar:/Users/KS26642/.m2/repository/org/seleniumhq/selenium/selenium-safari-driver/4.8.0/selenium-safari-driver-4.8.0.jar:/Users/KS26642/.m2/repository/org/testng/testng/7.10.2/testng-7.10.2.jar:/Users/KS26642/.m2/repository/com/beust/jcommander/1.82/jcommander-1.82.jar:/Users/KS26642/.m2/repository/org/webjars/jquery/3.7.1/jquery-3.7.1.jar:/Users/KS26642/.m2/repository/io/cucumber/cucumber-java/7.18.1/cucumber-java-7.18.1.jar:/Users/KS26642/.m2/repository/io/cucumber/cucumber-core/7.18.1/cucumber-core-7.18.1.jar:/Users/KS26642/.m2/repository/io/cucumber/cucumber-gherkin/7.18.1/cucumber-gherkin-7.18.1.jar:/Users/KS26642/.m2/repository/io/cucumber/cucumber-gherkin-messages/7.18.1/cucumber-gherkin-messages-7.18.1.jar:/Users/KS26642/.m2/repository/io/cucumber/gherkin/28.0.0/gherkin-28.0.0.jar:/Users/KS26642/.m2/repository/io/cucumber/messages/24.1.0/messages-24.1.0.jar:/Users/KS26642/.m2/repository/io/cucumber/testng-xml-formatter/0.2.0/testng-xml-formatter-0.2.0.jar:/Users/KS26642/.m2/repository/io/cucumber/query/12.2.0/query-12.2.0.jar:/Users/KS26642/.m2/repository/io/cucumber/tag-expressions/6.1.0/tag-expressions-6.1.0.jar:/Users/KS26642/.m2/repository/io/cucumber/cucumber-expressions/17.1.0/cucumber-expressions-17.1.0.jar:/Users/KS26642/.m2/repository/io/cucumber/datatable/7.18.1/datatable-7.18.1.jar:/Users/KS26642/.m2/repository/io/cucumber/cucumber-plugin/7.18.1/cucumber-plugin-7.18.1.jar:/Users/KS26642/.m2/repository/io/cucumber/docstring/7.18.1/docstring-7.18.1.jar:/Users/KS26642/.m2/repository/io/cucumber/html-formatter/21.4.1/html-formatter-21.4.1.jar:/Users/KS26642/.m2/repository/io/cucumber/junit-xml-formatter/0.5.0/junit-xml-formatter-0.5.0.jar:/Users/KS26642/.m2/repository/io/cucumber/ci-environment/10.0.1/ci-environment-10.0.1.jar:/Users/KS26642/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/KS26642/.m2/repository/io/cucumber/cucumber-testng/7.18.1/cucumber-testng-7.18.1.jar:/Users/KS26642/.m2/repository/io/qameta/allure/allure-cucumber7-jvm/2.29.1/allure-cucumber7-jvm-2.29.1.jar:/Users/KS26642/.m2/repository/io/qameta/allure/allure-java-commons/2.29.1/allure-java-commons-2.29.1.jar:/Users/KS26642/.m2/repository/io/qameta/allure/allure-model/2.29.1/allure-model-2.29.1.jar:/Users/KS26642/.m2/repository/io/qameta/allure/allure-testng/2.29.1/allure-testng-2.29.1.jar:/Users/KS26642/.m2/repository/io/qameta/allure/allure-test-filter/2.29.1/allure-test-filter-2.29.1.jar:/Users/KS26642/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.17.2/jackson-databind-2.17.2.jar:/Users/KS26642/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.17.2/jackson-annotations-2.17.2.jar:/Users/KS26642/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.17.2/jackson-core-2.17.2.jar:/Users/KS26642/.m2/repository/org/apache/commons/commons-lang3/3.17.0/commons-lang3-3.17.0.jar:/Users/KS26642/.m2/repository/org/apache/logging/log4j/log4j-api/2.24.3/log4j-api-2.24.3.jar:/Users/KS26642/.m2/repository/org/apache/logging/log4j/log4j-core/2.24.3/log4j-core-2.24.3.jar:/Users/KS26642/.m2/repository/commons-io/commons-io/2.18.0/commons-io-2.18.0.jar:"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="/Users/KS26642"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2024-10-15"/>
+    <property name="java.home" value="/Library/Java/JavaVirtualMachines/jdk-23.jdk/Contents/Home"/>
+    <property name="file.separator" value="/"/>
+    <property name="basedir" value="/Users/KS26642/IdeaProjects/TUI-Mobile-Automation"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="apple.awt.application.name" value="ForkedBooter"/>
+    <property name="surefire.real.class.path" value="/Users/KS26642/IdeaProjects/TUI-Mobile-Automation/target/surefire/surefirebooter-20260701215614348_3.jar"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="java.runtime.version" value="23.0.1+11-39"/>
+    <property name="user.name" value="KS26642"/>
+    <property name="stdout.encoding" value="UTF-8"/>
+    <property name="path.separator" value=":"/>
+    <property name="os.version" value="26.5.1"/>
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
+    <property name="localRepository" value="/Users/KS26642/.m2/repository"/>
+    <property name="java.vendor.url.bug" value="https://bugreport.java.com/bugreport/"/>
+    <property name="java.io.tmpdir" value="/var/folders/kp/zc5d9_rn0tdc68s1q9r6_ql00000gq/T/"/>
+    <property name="java.version" value="23.0.1"/>
+    <property name="user.dir" value="/Users/KS26642/IdeaProjects/TUI-Mobile-Automation"/>
+    <property name="os.arch" value="aarch64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="native.encoding" value="UTF-8"/>
+    <property name="java.library.path" value="/Users/KS26642/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:."/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="stderr.encoding" value="UTF-8"/>
+    <property name="java.vendor" value="Oracle Corporation"/>
+    <property name="java.vm.version" value="23.0.1+11-39"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeBig"/>
+    <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="java.class.version" value="67.0"/>
+  </properties>
+  <testcase name="launchDriver" classname="com.tui.qa.test.DriverTest" time="5.733">
+    <system-out><![CDATA[21:56:15 INFO  FrameworkConstants - Loading framework configuration.
+21:56:15 INFO  ConfigReader - Configuration loaded successfully.
+21:56:15 INFO  DriverInitializer - Starting Android Driver initialization for device: AndroidDevice
+21:56:15 INFO  DriverInitializer - Detected Appium endpoint at root path: http://127.0.0.1:4723
+21:56:20 INFO  DriverManager - Driver stored in ThreadLocal.
+21:56:20 INFO  DriverInitializer - Android Driver initialized successfully | Platform: Android | Device: AndroidDevice | UDID: 
+]]></system-out>
+    <system-err><![CDATA[SLF4J: No SLF4J providers were found.
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See https://www.slf4j.org/codes.html#noProviders for further details.
+]]></system-err>
+  </testcase>
+  <testcase name="runScenario[&quot;Login with valid user details&quot;, &quot;Login&quot;](1)" classname="com.tui.qa.runner.TestRunner" time="14.632">
+    <system-out><![CDATA[21:56:20 INFO  DriverManager - Closing Android Driver.
+21:56:20 INFO  DriverManager - Driver removed from ThreadLocal.
+
+@login @Smoke @Login
+Scenario: Login with valid user details            # src/test/resources/features/login.feature:9
+21:56:21 INFO  Hooks - Starting Scenario: Login with valid user details
+21:56:21 INFO  DriverInitializer - Starting Android Driver initialization for device: AndroidDevice
+21:56:21 INFO  DriverInitializer - Detected Appium endpoint at root path: http://127.0.0.1:4723
+21:56:24 INFO  DriverManager - Driver stored in ThreadLocal.
+21:56:24 INFO  DriverInitializer - Android Driver initialized successfully | Platform: Android | Device: AndroidDevice | UDID: 
+  Given the user launches the application          # com.tui.qa.stepdefinitions.LoginSteps.theUserLaunchesTheApplication()
+21:56:26 INFO  BasePage - Entering text into element: By.xpath: //*[@resource-id='username_input_field' or @resource-id='com.tui.qa.challenge:id/username_input_field']
+  When the user enters a valid username            # com.tui.qa.stepdefinitions.LoginSteps.theUserEntersAValidUsername()
+21:56:26 INFO  BasePage - Entering text into element: By.xpath: //*[@resource-id='password_input_field' or @resource-id='com.tui.qa.challenge:id/password_input_field']
+  And the user enters a valid password             # com.tui.qa.stepdefinitions.LoginSteps.theUserEntersAValidPassword()
+21:56:27 INFO  BasePage - Clicking on element: By.xpath: //*[@resource-id='date_of_birth_field' or @resource-id='com.tui.qa.challenge:id/date_of_birth_field']
+21:56:27 INFO  BasePage - Clicking on element: By.xpath: //*[@resource-id='date_of_birth_field_calendar_icon' or @resource-id='com.tui.qa.challenge:id/date_of_birth_field_calendar_icon']
+21:56:29 INFO  BasePage - Clicking on element: AppiumBy.accessibilityId: Change to next month
+21:56:30 INFO  BasePage - Clicking on element: AppiumBy.accessibilityId: Change to next month
+21:56:31 INFO  BasePage - Clicking on element: AppiumBy.accessibilityId: Change to next month
+21:56:33 INFO  BasePage - Clicking on element: By.xpath: //*[@resource-id='date_of_birth_dialog_confirm_button' or @resource-id='com.tui.qa.challenge:id/date_of_birth_dialog_confirm_button']
+  And the user enters a valid date of birth        # com.tui.qa.stepdefinitions.LoginSteps.theUserEntersAValidDateOfBirth()
+21:56:34 INFO  BasePage - Clicking on element: By.xpath: //*[@resource-id='login_form_submit_button' or @resource-id='com.tui.qa.challenge:id/login_form_submit_button']
+  And the user taps the Login button               # com.tui.qa.stepdefinitions.LoginSteps.theUserTapsTheLoginButton()
+  Then the search results page should be displayed # com.tui.qa.stepdefinitions.LoginSteps.theSearchResultsPageShouldBeDisplayed()
+21:56:35 INFO  Hooks - Scenario Passed: Login with valid user details
+21:56:35 INFO  DriverManager - Closing Android Driver.
+21:56:35 INFO  DriverManager - Driver removed from ThreadLocal.
+21:56:35 INFO  Hooks - Driver closed successfully.
+]]></system-out>
+  </testcase>
+  <testcase name="runScenario[&quot;Verify Hotels tab&quot;, &quot;Search Results&quot;](2)" classname="com.tui.qa.runner.TestRunner" time="14.41">
+    <system-out><![CDATA[
+@search @Regression @Hotels
+Scenario: Verify Hotels tab                     # src/test/resources/features/search.feature:8
+21:56:35 INFO  Hooks - Starting Scenario: Verify Hotels tab
+21:56:35 INFO  DriverInitializer - Starting Android Driver initialization for device: AndroidDevice
+21:56:35 INFO  DriverInitializer - Detected Appium endpoint at root path: http://127.0.0.1:4723
+21:56:39 INFO  DriverManager - Driver stored in ThreadLocal.
+21:56:39 INFO  DriverInitializer - Android Driver initialized successfully | Platform: Android | Device: AndroidDevice | UDID: 
+21:56:39 INFO  BasePage - Entering text into element: By.xpath: //*[@resource-id='username_input_field' or @resource-id='com.tui.qa.challenge:id/username_input_field']
+21:56:41 INFO  BasePage - Entering text into element: By.xpath: //*[@resource-id='password_input_field' or @resource-id='com.tui.qa.challenge:id/password_input_field']
+21:56:41 INFO  BasePage - Clicking on element: By.xpath: //*[@resource-id='date_of_birth_field' or @resource-id='com.tui.qa.challenge:id/date_of_birth_field']
+21:56:42 INFO  BasePage - Clicking on element: By.xpath: //*[@resource-id='date_of_birth_field_calendar_icon' or @resource-id='com.tui.qa.challenge:id/date_of_birth_field_calendar_icon']
+21:56:44 INFO  BasePage - Clicking on element: AppiumBy.accessibilityId: Change to next month
+21:56:44 INFO  BasePage - Clicking on element: AppiumBy.accessibilityId: Change to next month
+21:56:45 INFO  BasePage - Clicking on element: AppiumBy.accessibilityId: Change to next month
+21:56:46 INFO  BasePage - Clicking on element: By.xpath: //*[@resource-id='date_of_birth_dialog_confirm_button' or @resource-id='com.tui.qa.challenge:id/date_of_birth_dialog_confirm_button']
+21:56:47 INFO  BasePage - Clicking on element: By.xpath: //*[@resource-id='login_form_submit_button' or @resource-id='com.tui.qa.challenge:id/login_form_submit_button']
+  Given the user is logged into the application # com.tui.qa.stepdefinitions.LoginSteps.theUserIsLoggedIntoTheApplication()
+21:56:48 INFO  BasePage - Clicking on element: By.xpath: //*[@resource-id='top_app_bar_hotels_tab' or @resource-id='com.tui.qa.challenge:id/top_app_bar_hotels_tab']
+  When the user taps on the Hotels tab          # com.tui.qa.stepdefinitions.SearchResultsSteps.theUserTapsOnTheHotelsTab()
+  Then hotel results should be displayed        # com.tui.qa.stepdefinitions.SearchResultsSteps.hotelResultsShouldBeDisplayed()
+21:56:49 INFO  Hooks - Scenario Passed: Verify Hotels tab
+21:56:49 INFO  DriverManager - Closing Android Driver.
+21:56:50 INFO  DriverManager - Driver removed from ThreadLocal.
+21:56:50 INFO  Hooks - Driver closed successfully.
+]]></system-out>
+  </testcase>
+  <testcase name="runScenario[&quot;Verify Holidays tab&quot;, &quot;Search Results&quot;](3)" classname="com.tui.qa.runner.TestRunner" time="26.122">
+    <system-out><![CDATA[
+@search @Regression @Holidays
+Scenario: Verify Holidays tab                   # src/test/resources/features/search.feature:14
+21:56:50 INFO  Hooks - Starting Scenario: Verify Holidays tab
+21:56:50 INFO  DriverInitializer - Starting Android Driver initialization for device: AndroidDevice
+21:56:50 INFO  DriverInitializer - Detected Appium endpoint at root path: http://127.0.0.1:4723
+21:56:53 INFO  DriverManager - Driver stored in ThreadLocal.
+21:56:53 INFO  DriverInitializer - Android Driver initialized successfully | Platform: Android | Device: AndroidDevice | UDID: 
+21:56:53 INFO  BasePage - Entering text into element: By.xpath: //*[@resource-id='username_input_field' or @resource-id='com.tui.qa.challenge:id/username_input_field']
+21:56:55 INFO  BasePage - Entering text into element: By.xpath: //*[@resource-id='password_input_field' or @resource-id='com.tui.qa.challenge:id/password_input_field']
+21:56:55 INFO  BasePage - Clicking on element: By.xpath: //*[@resource-id='date_of_birth_field' or @resource-id='com.tui.qa.challenge:id/date_of_birth_field']
+21:56:56 INFO  BasePage - Clicking on element: By.xpath: //*[@resource-id='date_of_birth_field_calendar_icon' or @resource-id='com.tui.qa.challenge:id/date_of_birth_field_calendar_icon']
+21:56:58 INFO  BasePage - Clicking on element: AppiumBy.accessibilityId: Change to next month
+21:56:59 INFO  BasePage - Clicking on element: AppiumBy.accessibilityId: Change to next month
+21:56:59 INFO  BasePage - Clicking on element: AppiumBy.accessibilityId: Change to next month
+21:57:01 INFO  BasePage - Clicking on element: By.xpath: //*[@resource-id='date_of_birth_dialog_confirm_button' or @resource-id='com.tui.qa.challenge:id/date_of_birth_dialog_confirm_button']
+21:57:02 INFO  BasePage - Clicking on element: By.xpath: //*[@resource-id='login_form_submit_button' or @resource-id='com.tui.qa.challenge:id/login_form_submit_button']
+  Given the user is logged into the application # com.tui.qa.stepdefinitions.LoginSteps.theUserIsLoggedIntoTheApplication()
+21:57:03 INFO  BasePage - Clicking on element: By.xpath: //*[@resource-id='top_app_bar_holidays_tab' or @resource-id='com.tui.qa.challenge:id/top_app_bar_holidays_tab']
+  When the user taps on the Holidays tab        # com.tui.qa.stepdefinitions.SearchResultsSteps.theUserTapsOnTheHolidaysTab()
+  Then holiday results should be displayed      # com.tui.qa.stepdefinitions.SearchResultsSteps.holidayResultsShouldBeDisplayed()
+21:57:15 INFO  Hooks - Scenario Passed: Verify Holidays tab
+21:57:15 INFO  DriverManager - Closing Android Driver.
+21:57:16 INFO  DriverManager - Driver removed from ThreadLocal.
+21:57:16 INFO  Hooks - Driver closed successfully.
+]]></system-out>
+  </testcase>
+  <testcase name="runScenario[&quot;Verify All tab&quot;, &quot;Search Results&quot;](4)" classname="com.tui.qa.runner.TestRunner" time="26.279">
+    <system-out><![CDATA[
+@search @Regression @All
+Scenario: Verify All tab                                  # src/test/resources/features/search.feature:20
+21:57:16 INFO  Hooks - Starting Scenario: Verify All tab
+21:57:16 INFO  DriverInitializer - Starting Android Driver initialization for device: AndroidDevice
+21:57:16 INFO  DriverInitializer - Detected Appium endpoint at root path: http://127.0.0.1:4723
+21:57:19 INFO  DriverManager - Driver stored in ThreadLocal.
+21:57:19 INFO  DriverInitializer - Android Driver initialized successfully | Platform: Android | Device: AndroidDevice | UDID: 
+21:57:19 INFO  BasePage - Entering text into element: By.xpath: //*[@resource-id='username_input_field' or @resource-id='com.tui.qa.challenge:id/username_input_field']
+21:57:21 INFO  BasePage - Entering text into element: By.xpath: //*[@resource-id='password_input_field' or @resource-id='com.tui.qa.challenge:id/password_input_field']
+21:57:21 INFO  BasePage - Clicking on element: By.xpath: //*[@resource-id='date_of_birth_field' or @resource-id='com.tui.qa.challenge:id/date_of_birth_field']
+21:57:22 INFO  BasePage - Clicking on element: By.xpath: //*[@resource-id='date_of_birth_field_calendar_icon' or @resource-id='com.tui.qa.challenge:id/date_of_birth_field_calendar_icon']
+21:57:24 INFO  BasePage - Clicking on element: AppiumBy.accessibilityId: Change to next month
+21:57:25 INFO  BasePage - Clicking on element: AppiumBy.accessibilityId: Change to next month
+21:57:26 INFO  BasePage - Clicking on element: AppiumBy.accessibilityId: Change to next month
+21:57:27 INFO  BasePage - Clicking on element: By.xpath: //*[@resource-id='date_of_birth_dialog_confirm_button' or @resource-id='com.tui.qa.challenge:id/date_of_birth_dialog_confirm_button']
+21:57:28 INFO  BasePage - Clicking on element: By.xpath: //*[@resource-id='login_form_submit_button' or @resource-id='com.tui.qa.challenge:id/login_form_submit_button']
+  Given the user is logged into the application           # com.tui.qa.stepdefinitions.LoginSteps.theUserIsLoggedIntoTheApplication()
+21:57:29 INFO  BasePage - Clicking on element: By.xpath: //*[@resource-id='top_app_bar_all_tab' or @resource-id='com.tui.qa.challenge:id/top_app_bar_all_tab']
+  When the user taps on the All tab                       # com.tui.qa.stepdefinitions.SearchResultsSteps.theUserTapsOnTheAllTab()
+  Then both hotel and holiday results should be displayed # com.tui.qa.stepdefinitions.SearchResultsSteps.bothHotelAndHolidayResultsShouldBeDisplayed()
+21:57:42 INFO  Hooks - Scenario Passed: Verify All tab
+21:57:42 INFO  DriverManager - Closing Android Driver.
+21:57:42 INFO  DriverManager - Driver removed from ThreadLocal.
+21:57:42 INFO  Hooks - Driver closed successfully.
+]]></system-out>
+  </testcase>
+  <testcase name="runScenario[&quot;Verify hotel lazy loading&quot;, &quot;Search Results&quot;](5)" classname="com.tui.qa.runner.TestRunner" time="16.748">
+    <system-out><![CDATA[
+@search @Regression @LazyLoading
+Scenario: Verify hotel lazy loading             # src/test/resources/features/search.feature:26
+21:57:42 INFO  Hooks - Starting Scenario: Verify hotel lazy loading
+21:57:42 INFO  DriverInitializer - Starting Android Driver initialization for device: AndroidDevice
+21:57:42 INFO  DriverInitializer - Detected Appium endpoint at root path: http://127.0.0.1:4723
+21:57:46 INFO  DriverManager - Driver stored in ThreadLocal.
+21:57:46 INFO  DriverInitializer - Android Driver initialized successfully | Platform: Android | Device: AndroidDevice | UDID: 
+21:57:46 INFO  BasePage - Entering text into element: By.xpath: //*[@resource-id='username_input_field' or @resource-id='com.tui.qa.challenge:id/username_input_field']
+21:57:47 INFO  BasePage - Entering text into element: By.xpath: //*[@resource-id='password_input_field' or @resource-id='com.tui.qa.challenge:id/password_input_field']
+21:57:48 INFO  BasePage - Clicking on element: By.xpath: //*[@resource-id='date_of_birth_field' or @resource-id='com.tui.qa.challenge:id/date_of_birth_field']
+21:57:48 INFO  BasePage - Clicking on element: By.xpath: //*[@resource-id='date_of_birth_field_calendar_icon' or @resource-id='com.tui.qa.challenge:id/date_of_birth_field_calendar_icon']
+21:57:50 INFO  BasePage - Clicking on element: AppiumBy.accessibilityId: Change to next month
+21:57:51 INFO  BasePage - Clicking on element: AppiumBy.accessibilityId: Change to next month
+21:57:52 INFO  BasePage - Clicking on element: AppiumBy.accessibilityId: Change to next month
+21:57:53 INFO  BasePage - Clicking on element: By.xpath: //*[@resource-id='date_of_birth_dialog_confirm_button' or @resource-id='com.tui.qa.challenge:id/date_of_birth_dialog_confirm_button']
+21:57:54 INFO  BasePage - Clicking on element: By.xpath: //*[@resource-id='login_form_submit_button' or @resource-id='com.tui.qa.challenge:id/login_form_submit_button']
+  Given the user is logged into the application # com.tui.qa.stepdefinitions.LoginSteps.theUserIsLoggedIntoTheApplication()
+21:57:55 INFO  BasePage - Clicking on element: By.xpath: //*[@resource-id='top_app_bar_hotels_tab' or @resource-id='com.tui.qa.challenge:id/top_app_bar_hotels_tab']
+  When the user taps on the Hotels tab          # com.tui.qa.stepdefinitions.SearchResultsSteps.theUserTapsOnTheHotelsTab()
+  And the user scrolls down the hotel list      # com.tui.qa.stepdefinitions.SearchResultsSteps.theUserScrollsDownTheHotelList()
+  Then a new hotel card should be displayed     # com.tui.qa.stepdefinitions.SearchResultsSteps.aNewHotelCardShouldBeDisplayed()
+  And the hotel name should be displayed        # com.tui.qa.stepdefinitions.SearchResultsSteps.theHotelNameShouldBeDisplayed()
+  And the hotel price should be displayed       # com.tui.qa.stepdefinitions.SearchResultsSteps.theHotelPriceShouldBeDisplayed()
+  And the hotel price should be in valid format # com.tui.qa.stepdefinitions.SearchResultsSteps.theHotelPriceShouldBeInValidFormat()
+21:57:59 INFO  Hooks - Scenario Passed: Verify hotel lazy loading
+21:57:59 INFO  DriverManager - Closing Android Driver.
+21:57:59 INFO  DriverManager - Driver removed from ThreadLocal.
+21:57:59 INFO  Hooks - Driver closed successfully.
+]]></system-out>
+  </testcase>
+</testsuite>
