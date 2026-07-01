@@ -77,21 +77,7 @@ jobs:
             appium --address 127.0.0.1 --port 4723 --base-path / --log appium.log > appium-console.log 2>&1 &
 
             echo "===== Waiting for Appium ====="
-
-            for i in $(seq 1 30); do
-              if curl -fs http://127.0.0.1:4723/status >/dev/null; then
-                echo "Appium is ready."
-                break
-              fi
-
-              if [ "$i" -eq 30 ]; then
-                echo "Appium failed to start."
-                cat appium.log || true
-                exit 1
-              fi
-
-              sleep 2
-            done
+            curl -fsS --retry 30 --retry-delay 2 --retry-connrefused http://127.0.0.1:4723/status >/dev/null
 
             echo "===== Verifying APK ====="
 
