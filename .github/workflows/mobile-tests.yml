@@ -27,7 +27,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
 
       - name: Install Appium and UiAutomator2 driver
         run: |
@@ -45,19 +45,28 @@ jobs:
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
           disable-animations: true
           script: |
+            set -eu
             adb devices
             appium --port 4723 --log appium.log > appium-console.log 2>&1 &
-            for i in {1..20}; do
-              if curl -s http://127.0.0.1:4723/status >/dev/null; then
+            i=1
+            while [ "$i" -le 20 ]; do
+              if curl -fsS http://127.0.0.1:4723/status >/dev/null; then
                 break
               fi
+              if [ "$i" -eq 20 ]; then
+                echo "Appium did not become ready in time" >&2
+                exit 1
+              fi
+              i=$((i + 1))
               sleep 2
             done
+            test -f "$GITHUB_WORKSPACE/apps/app.apk"
             mvn clean test \
               -DdeviceName=AndroidEmulator \
               -Dudid=emulator-5554 \
               -DplatformVersion=15 \
-              -Dapp=apps/app.apk
+              -Dapp="$GITHUB_WORKSPACE/apps/app.apk" \
+              -DscreenshotDir=screenshots
             mvn allure:report
 
       - name: Upload test artifacts
