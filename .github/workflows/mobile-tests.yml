@@ -64,50 +64,28 @@ jobs:
           script: |
             set -eu
 
-            wait_for_http() {
-              url="$1"
-              max_attempts="$2"
-              delay_seconds="$3"
-
-              attempt=1
-              while [ "$attempt" -le "$max_attempts" ]; do
-                if curl -fsS "$url" >/dev/null 2>&1; then
-                  return 0
-                fi
-
-                echo "Waiting for HTTP endpoint: $url (attempt $attempt/$max_attempts)"
-                sleep "$delay_seconds"
-                attempt=$((attempt + 1))
-              done
-
-              echo "Timed out waiting for endpoint: $url"
-              return 1
-            }
-
-            retry_cmd() {
-              max_attempts="$1"
-              delay_seconds="$2"
-              shift 2
-
-              attempt=1
-              while [ "$attempt" -le "$max_attempts" ]; do
-                if "$@"; then
-                  return 0
-                fi
-
-                echo "Command failed (attempt $attempt/$max_attempts): $*"
-                sleep "$delay_seconds"
-                attempt=$((attempt + 1))
-              done
-
-              echo "Command failed after $max_attempts attempts: $*"
-              return 1
-            }
-
             echo "===== Stabilizing ADB ====="
             adb kill-server || true
-            retry_cmd 5 2 adb start-server
-            retry_cmd 5 2 adb devices
+
+            i=1
+            while [ "$i" -le 5 ]; do
+              if adb start-server; then
+                break
+              fi
+              echo "adb start-server failed (attempt $i/5)"
+              sleep 2
+              i=$((i + 1))
+            done
+
+            i=1
+            while [ "$i" -le 5 ]; do
+              if adb devices; then
+                break
+              fi
+              echo "adb devices failed (attempt $i/5)"
+              sleep 2
+              i=$((i + 1))
+            done
 
             echo "===== ADB Devices ====="
             adb devices
@@ -136,11 +114,18 @@ jobs:
             appium --address 127.0.0.1 --port 4723 --base-path / --log appium.log > appium-console.log 2>&1 &
 
             echo "===== Waiting for Appium ====="
-            wait_for_http http://127.0.0.1:4723/status 30 2
+            i=1
+            until curl -fsS http://127.0.0.1:4723/status >/dev/null 2>&1; do
+              if [ "$i" -ge 30 ]; then
+                echo "Timed out waiting for Appium"
+                exit 1
+              fi
+              echo "Waiting for Appium (attempt $i/30)"
+              sleep 2
+              i=$((i + 1))
+            done
 
             echo "===== Verifying APK ====="
-            wait_for_http http://127.0.0.1:4723/status 30 2
-
             if [ ! -f apps/app.apk ]; then
               echo "ERROR: apps/app.apk not found"
               ls -la apps || true
