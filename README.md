@@ -167,12 +167,6 @@ Run one feature file:
 mvn -Dtest=TestRunner -Dcucumber.features=src/test/resources/features/login.feature test
 ```
 
-Run only standalone DriverTest (separate from Cucumber scenarios):
-
-```bash
-mvn -Dtest=DriverTest test
-```
-
 ## Reports and Artifacts
 
 - Cucumber HTML: reports/cucumber/cucumber-report.html
