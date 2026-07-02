@@ -41,7 +41,7 @@ public final class FrameworkConstants {
             ConfigReader.getProperty("appPackage");
 
     public static final String APP_ACTIVITY =
-            ConfigReader.getProperty("appActivity");
+            ConfigReader.getOptionalProperty("appActivity");
 
     // Appium Configuration
     public static final String APPIUM_SERVER =

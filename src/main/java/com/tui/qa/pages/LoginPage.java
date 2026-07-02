@@ -2,7 +2,11 @@ package com.tui.qa.pages;
 
 import com.tui.qa.config.ConfigReader;
 import com.tui.qa.constants.FrameworkConstants;
+import com.tui.qa.utils.LoggerUtil;
+import com.tui.qa.utils.ScreenshotUtil;
+import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.AppiumBy;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WebDriverException;
@@ -15,9 +19,13 @@ import java.util.Locale;
 
 public class LoginPage extends BasePage {
 
+    private static final Logger logger =
+            LoggerUtil.getLogger(LoginPage.class);
+
     private static final DateTimeFormatter DIALOG_TEXT_INPUT_FORMATTER =
         DateTimeFormatter.ofPattern("MM/dd/yyyy", Locale.ENGLISH);
     private static final int MAX_DOB_INPUT_ATTEMPTS = 3;
+    private static final int LOGIN_SCREEN_READY_TIMEOUT_SECONDS = 90;
 
     // Login Form
     private final By loginFormRoot = byAnyResourceId("login_form_screen_root");
@@ -33,6 +41,16 @@ public class LoginPage extends BasePage {
         private final By dateOfBirthCalendarIconFallback =
                 AppiumBy.xpath("//*[contains(@resource-id,'calendar') and (@clickable='true' or @focusable='true')]");
     private final By submitButton = byAnyResourceId("login_form_submit_button");
+        private final By allowButtonText =
+            AppiumBy.androidUIAutomator(
+                "new UiSelector().classNameMatches(\"android.widget.(Button|TextView)\")"
+                    + ".textMatches(\"(?i)allow|while using the app|only this time|continue|ok\")"
+            );
+        private final By onboardingButtonText =
+            AppiumBy.androidUIAutomator(
+                "new UiSelector().classNameMatches(\"android.widget.(Button|TextView)\")"
+                    + ".textMatches(\"(?i)skip|next|get started|start|continue\")"
+            );
         private final By datePickerDialog = byAnyResourceId("date_of_birth_dialog");
         private final By dialogDateInputField =
             AppiumBy.xpath("//android.view.View[@resource-id='date_of_birth_dialog']//android.widget.EditText");
@@ -75,6 +93,7 @@ public class LoginPage extends BasePage {
 
     // Actions
     public LoginPage enterUsername(String username) {
+        waitForLoginScreenReady();
         type(usernameField, username);
         return this;
     }
@@ -405,6 +424,79 @@ public class LoginPage extends BasePage {
     public LoginPage tapSubmit() {
         click(submitButton);
         return this;
+    }
+
+    private void waitForLoginScreenReady() {
+
+        long timeoutAt = System.currentTimeMillis()
+                + (LOGIN_SCREEN_READY_TIMEOUT_SECONDS * 1000L);
+
+        while (System.currentTimeMillis() < timeoutAt) {
+
+            if (isElementReady(loginFormRoot) || isElementReady(usernameField)) {
+                return;
+            }
+
+            // Best-effort handling for permission and onboarding overlays.
+            if (clickIfPresent(allowButtonText) || clickIfPresent(onboardingButtonText)) {
+                continue;
+            }
+
+            dismissKeyboardIfPresent();
+
+            try {
+                if (driver instanceof AndroidDriver androidDriver) {
+                    logger.info("Waiting for login screen. Current activity: {}", androidDriver.currentActivity());
+                    logger.info("Waiting for login screen. Current package: {}", androidDriver.getCurrentPackage());
+                }
+            } catch (Exception ignored) {
+                // Activity/package may not be available on all driver states.
+            }
+
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException interruptedException) {
+                Thread.currentThread().interrupt();
+                break;
+            }
+        }
+
+        captureLoginStartupDiagnostics();
+
+        throw new IllegalStateException("Login screen was not ready within timeout.");
+    }
+
+    private boolean isElementReady(By locator) {
+
+        List<WebElement> elements = driver.findElements(locator);
+
+        for (WebElement element : elements) {
+            if (element.isDisplayed() && element.isEnabled()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private void captureLoginStartupDiagnostics() {
+
+        try {
+            String source = driver.getPageSource();
+            logger.error(
+                    "Login startup diagnostics | username_input_field present in page source: {}",
+                    source.contains("username_input_field")
+            );
+        } catch (Exception exception) {
+            logger.error("Unable to capture login startup page source.", exception);
+        }
+
+        try {
+            String screenshotPath = ScreenshotUtil.captureScreenshot("login_screen_not_ready");
+            logger.error("Login startup screenshot captured at: {}", screenshotPath);
+        } catch (Exception exception) {
+            logger.error("Unable to capture login startup screenshot.", exception);
+        }
     }
 
     public void login(String username,

@@ -2,18 +2,24 @@ package com.tui.qa.driver;
 
 import com.tui.qa.constants.FrameworkConstants;
 import com.tui.qa.utils.LoggerUtil;
+import org.apache.commons.io.FileUtils;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.SessionNotCreatedException;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.io.File;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 public final class DriverInitializer {
@@ -60,7 +66,10 @@ public final class DriverInitializer {
             options.setAutomationName(FrameworkConstants.AUTOMATION_NAME);
             options.setApp(resolveAppPath(FrameworkConstants.APP));
             options.setAppPackage(FrameworkConstants.APP_PACKAGE);
-            options.setAppActivity(FrameworkConstants.APP_ACTIVITY);
+
+            if (!FrameworkConstants.APP_ACTIVITY.isBlank()) {
+                options.setAppActivity(FrameworkConstants.APP_ACTIVITY);
+            }
 
             if (!FrameworkConstants.PLATFORM_VERSION.isBlank()) {
                 options.setPlatformVersion(FrameworkConstants.PLATFORM_VERSION);
@@ -81,6 +90,8 @@ public final class DriverInitializer {
             options.setUiautomator2ServerLaunchTimeout(Duration.ofSeconds(120));
             options.setAdbExecTimeout(Duration.ofSeconds(120));
             options.setAndroidInstallTimeout(Duration.ofSeconds(180));
+            options.setAppWaitDuration(Duration.ofSeconds(60));
+            options.setAppWaitForLaunch(true);
 
             URI appiumServerUri = resolveAppiumServerUri(FrameworkConstants.APPIUM_SERVER);
 
@@ -117,6 +128,8 @@ public final class DriverInitializer {
             }
 
             DriverManager.setDriver(driver);
+
+                captureStartupDiagnostics(driver);
 
             logger.info(
                     "Android Driver initialized successfully | Platform: {} | Device: {} | UDID: {}",
@@ -222,6 +235,58 @@ public final class DriverInitializer {
             Thread.sleep(2000);
         } catch (InterruptedException interruptedException) {
             Thread.currentThread().interrupt();
+        }
+    }
+
+    private static void captureStartupDiagnostics(AndroidDriver driver) {
+
+        try {
+
+            logger.info("Startup Activity: {}", driver.currentActivity());
+            logger.info("Startup Package: {}", driver.getCurrentPackage());
+
+        } catch (Exception exception) {
+
+            logger.warn("Unable to read startup activity/package details.", exception);
+        }
+
+        try {
+
+            String pageSource = driver.getPageSource();
+            Path startupDirectory = Paths.get("reports", "startup-artifacts").toAbsolutePath().normalize();
+            Files.createDirectories(startupDirectory);
+
+            String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
+            Path pageSourcePath = startupDirectory.resolve("startup-pagesource-" + timestamp + ".xml");
+            Files.writeString(pageSourcePath, pageSource);
+
+            logger.info("Startup page source saved to: {}", pageSourcePath);
+            logger.info(
+                    "Locator check | username_input_field present in startup source: {}",
+                    pageSource.contains("username_input_field")
+            );
+
+        } catch (Exception exception) {
+
+            logger.warn("Unable to capture startup page source.", exception);
+        }
+
+        try {
+
+            File source = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+            Path startupDirectory = Paths.get("reports", "startup-artifacts").toAbsolutePath().normalize();
+            Files.createDirectories(startupDirectory);
+
+            String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
+            Path screenshotPath = startupDirectory.resolve("startup-screenshot-" + timestamp + ".png");
+
+            FileUtils.copyFile(source, screenshotPath.toFile());
+
+            logger.info("Startup screenshot saved to: {}", screenshotPath);
+
+        } catch (Exception exception) {
+
+            logger.warn("Unable to capture startup screenshot.", exception);
         }
     }
 }
