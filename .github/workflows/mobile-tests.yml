@@ -42,8 +42,8 @@ jobs:
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
 
-      - name: Make emulator test script executable
-        run: chmod +x workflows/run-emulator-tests.sh
+      - name: Make emulator script executable
+        run: chmod +x .github/workflows/run-emulator-tests.sh
 
       - name: Run tests on Android Emulator
         uses: reactivecircus/android-emulator-runner@v2
@@ -64,7 +64,7 @@ jobs:
             -no-snapshot
             -no-snapshot-save
             -no-metrics
-          script: bash workflows/run-emulator-tests.sh
+          script: bash .github/workflows/run-emulator-tests.sh
 
       - name: Upload Test Artifacts
         if: always()
