@@ -1,9 +1,7 @@
 package com.tui.qa.pages;
 
 import com.tui.qa.constants.FrameworkConstants;
-import com.tui.qa.utils.LoggerUtil;
 import io.appium.java_client.AppiumBy;
-import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebElement;
@@ -12,12 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
 import java.time.Duration;
-import java.util.Locale;
 
 public class SearchResultPage extends BasePage {
-
-    private static final Logger logger =
-            LoggerUtil.getLogger(SearchResultPage.class);
 
     private static final String APP_ID_PREFIX =
         FrameworkConstants.APP_PACKAGE + ":id/";
@@ -101,7 +95,7 @@ public class SearchResultPage extends BasePage {
     }
 
     public String getHotelsTabLabel() {
-        return readTabLabel(hotelsTab, "Hotels");
+        return readTabLabel(hotelsTab);
     }
 
     public boolean isHolidaysTabDisplayed() {
@@ -109,40 +103,10 @@ public class SearchResultPage extends BasePage {
     }
 
     public String getHolidaysTabLabel() {
-        return readTabLabel(holidaysTab, "Holidays");
+        return readTabLabel(holidaysTab);
     }
 
-    private String readTabLabel(By tabLocator, String canonicalLabel) {
-
-        long timeoutAt = System.currentTimeMillis() + Duration.ofSeconds(8).toMillis();
-        String fallback = "";
-
-        while (System.currentTimeMillis() < timeoutAt) {
-
-            String label = readTabLabelOnce(tabLocator, canonicalLabel);
-
-            if (!label.isBlank()) {
-                return label;
-            }
-
-            if (fallback.isBlank()) {
-                fallback = label;
-            }
-
-            try {
-                Thread.sleep(300);
-            } catch (InterruptedException interruptedException) {
-                Thread.currentThread().interrupt();
-                break;
-            }
-        }
-
-        logger.warn("Tab label could not be extracted for locator: {}", tabLocator);
-
-        return fallback;
-    }
-
-    private String readTabLabelOnce(By tabLocator, String canonicalLabel) {
+    private String readTabLabel(By tabLocator) {
 
         List<WebElement> tabCandidates = driver.findElements(tabLocator);
 
@@ -156,11 +120,8 @@ public class SearchResultPage extends BasePage {
                     tab.getText(),
                     tab.getAttribute("text"),
                     tab.getAttribute("content-desc"),
-                    tab.getAttribute("contentDescription"),
                     tab.getAttribute("name")
             );
-
-                label = normalizeTabLabel(label, canonicalLabel);
 
             if (!label.isBlank()) {
                 return label;
@@ -173,99 +134,13 @@ public class SearchResultPage extends BasePage {
                 String nodeLabel = firstNonBlank(
                         textNode.getText(),
                         textNode.getAttribute("text"),
-                        textNode.getAttribute("content-desc"),
-                        textNode.getAttribute("contentDescription"),
-                        textNode.getAttribute("name")
+                        textNode.getAttribute("content-desc")
                 );
-
-                nodeLabel = normalizeTabLabel(nodeLabel, canonicalLabel);
 
                 if (!nodeLabel.isBlank()) {
                     return nodeLabel;
                 }
             }
-
-            List<WebElement> siblingAndParentNodes = tab.findElements(
-                    By.xpath("./preceding-sibling::*[@text or @content-desc] | ./following-sibling::*[@text or @content-desc] | ./parent::*//*[@text or @content-desc]")
-            );
-
-            for (WebElement node : siblingAndParentNodes) {
-
-                String nearbyLabel = firstNonBlank(
-                        node.getText(),
-                        node.getAttribute("text"),
-                        node.getAttribute("content-desc"),
-                        node.getAttribute("contentDescription"),
-                        node.getAttribute("name")
-                );
-
-                nearbyLabel = normalizeTabLabel(nearbyLabel, canonicalLabel);
-
-                if (!nearbyLabel.isBlank()) {
-                    return nearbyLabel;
-                }
-            }
-        }
-
-        String globalCandidate = readLabelByGlobalTextHint(canonicalLabel);
-
-        if (!globalCandidate.isBlank()) {
-            return globalCandidate;
-        }
-
-        return "";
-    }
-
-    private String readLabelByGlobalTextHint(String canonicalLabel) {
-
-        List<WebElement> textNodes = driver.findElements(
-                AppiumBy.xpath("//*[@text or @content-desc or @contentDescription]")
-        );
-
-        for (WebElement node : textNodes) {
-
-            if (!node.isDisplayed()) {
-                continue;
-            }
-
-            String value = firstNonBlank(
-                    node.getText(),
-                    node.getAttribute("text"),
-                    node.getAttribute("content-desc"),
-                    node.getAttribute("contentDescription"),
-                    node.getAttribute("name")
-            );
-
-            String normalized = normalizeTabLabel(value, canonicalLabel);
-
-            if (!normalized.isBlank()) {
-                return normalized;
-            }
-        }
-
-        return "";
-    }
-
-    private String normalizeTabLabel(String candidate, String canonicalLabel) {
-
-        if (candidate == null || candidate.isBlank()) {
-            return "";
-        }
-
-        String normalized = candidate.trim();
-        String lower = normalized.toLowerCase(Locale.ENGLISH);
-        String canonicalLower = canonicalLabel.toLowerCase(Locale.ENGLISH);
-
-        if (lower.contains(canonicalLower)) {
-            return canonicalLabel;
-        }
-
-        if (canonicalLower.equals("hotels") && lower.contains("hotel")) {
-            return canonicalLabel;
-        }
-
-        if (canonicalLower.equals("holidays") && lower.contains("holiday")) {
-            return canonicalLabel;
         }
 
         return "";
