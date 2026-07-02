@@ -59,7 +59,27 @@ jobs:
             -noaudio
             -no-boot-anim
           script: |
-            set -e
+            set -eu
+
+            wait_for_http() {
+              url="$1"
+              max_attempts="$2"
+              delay_seconds="$3"
+
+              attempt=1
+              while [ "$attempt" -le "$max_attempts" ]; do
+                if curl -fsS "$url" >/dev/null 2>&1; then
+                  return 0
+                fi
+
+                echo "Waiting for HTTP endpoint: $url (attempt $attempt/$max_attempts)"
+                sleep "$delay_seconds"
+                attempt=$((attempt + 1))
+              done
+
+              echo "Timed out waiting for endpoint: $url"
+              return 1
+            }
 
             echo "===== ADB Devices ====="
             adb devices
@@ -88,12 +108,16 @@ jobs:
             appium --address 127.0.0.1 --port 4723 --base-path / --log appium.log > appium-console.log 2>&1 &
 
             echo "===== Waiting for Appium ====="
-            curl -fsS --retry 30 --retry-delay 2 --retry-connrefused http://127.0.0.1:4723/status >/dev/null
+            wait_for_http http://127.0.0.1:4723/status 30 2
 
             echo "===== Verifying APK ====="
-            curl -fsS --retry 30 --retry-delay 2 --retry-connrefused http://127.0.0.1:4723/status >/dev/null
+            wait_for_http http://127.0.0.1:4723/status 30 2
 
-            test -f apps/app.apk
+            if [ ! -f apps/app.apk ]; then
+              echo "ERROR: apps/app.apk not found"
+              ls -la apps || true
+              exit 1
+            fi
 
             echo "===== Running Maven Tests ====="
             mvn --batch-mode --no-transfer-progress clean test -DexplicitWait=60
