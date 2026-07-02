@@ -5,6 +5,7 @@ import com.tui.qa.constants.FrameworkConstants;
 import com.tui.qa.utils.LoggerUtil;
 import com.tui.qa.utils.ScreenshotUtil;
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.Activity;
 import io.appium.java_client.AppiumBy;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
@@ -26,6 +27,8 @@ public class LoginPage extends BasePage {
         DateTimeFormatter.ofPattern("MM/dd/yyyy", Locale.ENGLISH);
     private static final int MAX_DOB_INPUT_ATTEMPTS = 3;
     private static final int LOGIN_SCREEN_READY_TIMEOUT_SECONDS = 90;
+    private static final int LOGIN_SCREEN_ASSERT_TIMEOUT_SECONDS = 45;
+    private static final int LOGIN_SCREEN_RECOVERY_INTERVAL_SECONDS = 15;
 
     // Login Form
     private final By loginFormRoot = byAnyResourceId("login_form_screen_root");
@@ -88,7 +91,7 @@ public class LoginPage extends BasePage {
 
     // Validation
     public boolean isLoginPageDisplayed() {
-    return isDisplayed(loginFormRoot);
+        return waitForLoginScreenReadyInternal(LOGIN_SCREEN_ASSERT_TIMEOUT_SECONDS, false);
     }
 
     // Actions
@@ -428,13 +431,24 @@ public class LoginPage extends BasePage {
 
     private void waitForLoginScreenReady() {
 
+        if (!waitForLoginScreenReadyInternal(LOGIN_SCREEN_READY_TIMEOUT_SECONDS, true)) {
+            throw new IllegalStateException("Login screen was not ready within timeout.");
+        }
+    }
+
+    private boolean waitForLoginScreenReadyInternal(int timeoutSeconds, boolean throwOnFailure) {
+
         long timeoutAt = System.currentTimeMillis()
-                + (LOGIN_SCREEN_READY_TIMEOUT_SECONDS * 1000L);
+                + (timeoutSeconds * 1000L);
+        long nextRecoveryAt = System.currentTimeMillis()
+                + (LOGIN_SCREEN_RECOVERY_INTERVAL_SECONDS * 1000L);
+
+        attemptLoginScreenRecovery();
 
         while (System.currentTimeMillis() < timeoutAt) {
 
             if (isElementReady(loginFormRoot) || isElementReady(usernameField)) {
-                return;
+                return true;
             }
 
             // Best-effort handling for permission and onboarding overlays.
@@ -453,6 +467,12 @@ public class LoginPage extends BasePage {
                 // Activity/package may not be available on all driver states.
             }
 
+            if (System.currentTimeMillis() >= nextRecoveryAt) {
+                attemptLoginScreenRecovery();
+                nextRecoveryAt = System.currentTimeMillis()
+                        + (LOGIN_SCREEN_RECOVERY_INTERVAL_SECONDS * 1000L);
+            }
+
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException interruptedException) {
@@ -461,9 +481,35 @@ public class LoginPage extends BasePage {
             }
         }
 
-        captureLoginStartupDiagnostics();
+        if (throwOnFailure) {
+            captureLoginStartupDiagnostics();
+            throw new IllegalStateException("Login screen was not ready within timeout.");
+        }
 
-        throw new IllegalStateException("Login screen was not ready within timeout.");
+        return false;
+    }
+
+    private void attemptLoginScreenRecovery() {
+
+        try {
+            if (driver instanceof AndroidDriver androidDriver) {
+                androidDriver.activateApp(FrameworkConstants.APP_PACKAGE);
+
+                if (FrameworkConstants.APP_ACTIVITY != null
+                        && !FrameworkConstants.APP_ACTIVITY.isBlank()) {
+                    androidDriver.startActivity(new Activity(
+                            FrameworkConstants.APP_PACKAGE,
+                            FrameworkConstants.APP_ACTIVITY
+                    ));
+                }
+            }
+        } catch (Exception exception) {
+            logger.warn("Login recovery attempt did not fully succeed.", exception);
+        }
+
+        clickIfPresent(allowButtonText);
+        clickIfPresent(onboardingButtonText);
+        dismissKeyboardIfPresent();
     }
 
     private boolean isElementReady(By locator) {
