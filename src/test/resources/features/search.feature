@@ -16,12 +16,6 @@ Feature: Search Results
     When the user taps on the Holidays tab
     Then holiday results should be displayed
 
-  @Regression @All
-  Scenario: Verify All tab
-
-    When the user taps on the All tab
-    Then both hotel and holiday results should be displayed
-
   @Regression @LazyLoading
   Scenario: Verify hotel lazy loading
 

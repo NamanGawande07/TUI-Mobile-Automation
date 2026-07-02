@@ -1,5 +1,7 @@
 package com.tui.qa.stepdefinitions;
 
+import com.tui.qa.data.JsonReader;
+import com.tui.qa.models.SearchData;
 import com.tui.qa.pages.SearchResultPage;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -12,6 +14,9 @@ public class SearchResultsSteps {
 
     private final SearchResultPage searchResultPage =
             new SearchResultPage();
+
+    private final SearchData searchData =
+            JsonReader.read("searchData.json", SearchData.class);
 
 private List<String> previousHotels;
     // Hotels
@@ -29,6 +34,12 @@ private List<String> previousHotels;
                 searchResultPage.isHotelDisplayed(),
                 "Hotel results are not displayed."
         );
+
+        Assert.assertEquals(
+            searchResultPage.getHotelsTabLabel(),
+            searchData.getHotelsTabLabel(),
+            "Hotels tab label does not match expected test data."
+        );
     }
 
     
@@ -45,6 +56,12 @@ private List<String> previousHotels;
         Assert.assertTrue(
                 searchResultPage.isHolidayDisplayed(),
                 "Holiday results are not displayed."
+        );
+
+        Assert.assertEquals(
+            searchResultPage.getHolidaysTabLabel(),
+            searchData.getHolidaysTabLabel(),
+            "Holidays tab label does not match expected test data."
         );
     }
 
@@ -112,7 +129,7 @@ public void theUserScrollsDownTheHotelList() {
     public void theHotelPriceShouldBeInValidFormat() {
 
         Assert.assertTrue(
-                searchResultPage.isHotelPriceValid(),
+                searchResultPage.isHotelPriceValid(searchData.getPriceRegex()),
                 "Hotel price format is invalid."
         );
     }

@@ -1,0 +1,5 @@
+{
+  "hotelsTabLabel": "Hotels",
+  "holidaysTabLabel": "Holidays",
+  "priceRegex": "^\\$\\d+(,\\d{3})*$"
+}

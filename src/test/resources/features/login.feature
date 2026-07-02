@@ -6,11 +6,13 @@ Feature: Login
   So that I can view travel search results
 
   @Smoke @Login
-  Scenario: Login with valid user details
+  Scenario Outline: Login outcome by externalized credentials
 
     Given the user launches the application
-    When the user enters a valid username
-    And the user enters a valid password
-    And the user enters a valid date of birth
-    And the user taps the Login button
-    Then the search results page should be displayed
+    When the user logs in with data set "<dataSet>"
+    Then the login outcome should be "<outcome>"
+
+    Examples:
+      | dataSet     | outcome |
+      | validUser   | SUCCESS |
+      | invalidUser | FAILURE |

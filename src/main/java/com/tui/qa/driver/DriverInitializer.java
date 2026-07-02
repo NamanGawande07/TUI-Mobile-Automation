@@ -14,6 +14,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.time.Duration;
+import java.util.Locale;
 
 public final class DriverInitializer {
 
@@ -21,6 +22,27 @@ public final class DriverInitializer {
             LoggerUtil.getLogger(DriverInitializer.class);
 
     private DriverInitializer() {
+    }
+
+    public static void initializeDriver() {
+
+        String platformName = FrameworkConstants.PLATFORM_NAME
+                .trim()
+                .toLowerCase(Locale.ENGLISH);
+
+        if ("android".equals(platformName)) {
+            initializeAndroidDriver();
+            return;
+        }
+
+        if ("ios".equals(platformName)) {
+            IOSDriverInitializer.initializeIOSDriver();
+            return;
+        }
+
+        throw new IllegalArgumentException(
+                "Unsupported platformName: " + FrameworkConstants.PLATFORM_NAME
+        );
     }
 
     public static void initializeAndroidDriver() {

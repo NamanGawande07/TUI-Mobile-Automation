@@ -21,6 +21,13 @@ Goal: let a new engineer clone and run tests in 10-15 minutes (assuming Android 
 - src/test/resources/testdata: test data JSON
 - apps/app.apk: AUT APK
 
+Current implementation notes:
+
+- 5 Cucumber scenarios in total (2 login outcomes + 3 search scenarios)
+- Data-driven login via Cucumber Scenario Outline + externalized datasets in test data JSON
+- Explicit TestNG suite control via testng.xml (Surefire runs this suite by default)
+- iOS starter stub added at src/main/java/com/tui/qa/driver/IOSDriverInitializer.java
+
 ## Prerequisites
 
 Install and verify the following:
@@ -110,6 +117,8 @@ adb devices
 mvn clean test
 ```
 
+`mvn clean test` runs the explicit suite defined in testng.xml.
+
 Optional runtime overrides (no file edits required):
 
 ```bash
@@ -126,6 +135,12 @@ export DEVICE_NAME=emulator-5554
 export UDID=emulator-5554
 export PLATFORM_VERSION=14
 mvn clean test
+```
+
+Run with tag filter override:
+
+```bash
+mvn clean test -Dcucumber.filter.tags='@Smoke'
 ```
 
 ### 4. Generate Allure HTML Report
@@ -150,6 +165,12 @@ Run one feature file:
 
 ```bash
 mvn -Dtest=TestRunner -Dcucumber.features=src/test/resources/features/login.feature test
+```
+
+Run only standalone DriverTest (separate from Cucumber scenarios):
+
+```bash
+mvn -Dtest=DriverTest test
 ```
 
 ## Reports and Artifacts
@@ -203,3 +224,13 @@ mvn allure:report
 3. Run mvn clean test.
 4. Run mvn allure:report.
 5. Share target/site/allure-maven-plugin.
+
+## CI Workflow Notes
+
+The workflow in .github/workflows/mobile-tests.yml now:
+
+1. boots an Android emulator,
+2. starts Appium,
+3. executes mvn clean test,
+4. executes mvn allure:report,
+5. uploads reports/logs/screenshots as artifacts.

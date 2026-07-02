@@ -32,7 +32,7 @@ public final class DriverManager {
 
         if (driver != null) {
 
-            logger.info("Closing Android Driver.");
+            logger.info("Closing Appium driver.");
 
             driver.quit();
 

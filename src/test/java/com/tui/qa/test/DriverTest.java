@@ -11,7 +11,7 @@ public class DriverTest {
     @Test
     public void launchDriver() {
 
-        DriverInitializer.initializeAndroidDriver();
+        DriverInitializer.initializeDriver();
 
         Assert.assertNotNull(
                 DriverManager.getDriver(),

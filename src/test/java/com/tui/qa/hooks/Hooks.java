@@ -26,7 +26,7 @@ public class Hooks {
 
         stepCounter = 0;
 
-        DriverInitializer.initializeAndroidDriver();
+        DriverInitializer.initializeDriver();
     }
 
     @AfterStep

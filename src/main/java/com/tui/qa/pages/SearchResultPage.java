@@ -94,8 +94,16 @@ public class SearchResultPage extends BasePage {
         return isDisplayed(hotelsTab);
     }
 
+    public String getHotelsTabLabel() {
+        return getText(hotelsTab).trim();
+    }
+
     public boolean isHolidaysTabDisplayed() {
         return isDisplayed(holidaysTab);
+    }
+
+    public String getHolidaysTabLabel() {
+        return getText(holidaysTab).trim();
     }
 
     // ---------------- Hotel Validation ----------------
@@ -257,6 +265,15 @@ public class SearchResultPage extends BasePage {
                 .getText();
 
         return price.matches("^\\$\\d+(,\\d{3})*$");
+    }
+
+    public boolean isHotelPriceValid(String regex) {
+
+        String price = driver.findElements(hotelPrices)
+                .get(0)
+                .getText();
+
+        return price.matches(regex);
     }
 
 }

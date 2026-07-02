@@ -15,41 +15,24 @@ This structure follows Page Object Model + BDD separation of concerns. It allows
 
 ## 2. Where AI Tools Were Used and Where We Corrected Output
 
-### AI-assisted areas
+Concrete AI usage and corrections in this repository:
 
-- Framework scaffolding and code acceleration:
-	- Generating page object methods, utility classes, and initial test hooks.
-	- Producing first-pass boilerplate for runners, steps, and helper methods.
-- Test robustness improvements:
-	- Suggesting wait strategies, retry boundaries, and synchronization patterns.
-	- Proposing locator fallback strategies for dynamic mobile UIs.
-- Reporting and observability setup:
-	- Drafting report integration patterns, artifact paths, and execution commands.
-	- Helping structure failure evidence capture (logs/screenshots/report attachments).
-- Documentation and developer experience:
-	- Producing quick-start setup steps, troubleshooting guides, and execution playbooks.
-	- Assisting with decision logs and implementation rationale documentation.
+- AI-generated first pass for DriverInitializer and BasePage patterns.
+  Correction applied: switched from single-path endpoint assumptions to runtime Appium base-path detection (root vs /wd/hub).
+- AI-generated wait and locator proposals for login/search pages.
+  Correction applied: added fallback selectors/content-desc scanning and guarded retries for unstable calendar interactions.
+- AI-generated CI workflow scaffold.
+  Correction applied: workflow initially stopped after Appium/APK checks; updated to run mvn clean test and mvn allure:report and then upload artifacts.
+- AI-generated retry-listener pattern.
+  Correction applied: reduced scope so retry assignment applies to Cucumber runner flow, avoiding unintended blanket behavior for unrelated TestNG classes.
+- AI-generated documentation draft.
+  Correction applied: replaced generic statements with specific implementation details (dataset-driven login, testng.xml suite control, iOS initializer stub status).
 
-### Where we corrected AI output
-
-- Environment-specific mismatches:
-	- AI-generated defaults may not match local/CI tool versions, plugin compatibility, or device capabilities.
-	- We validate dependencies and execution commands against the actual runtime environment.
-- Flaky-interaction risk in first-pass automation:
-	- AI often proposes a single interaction path; mobile apps frequently need fallback selectors and state-aware flows.
-	- We refine generated logic to handle timing variation, UI transitions, and alternate element representations.
-- Over-generalized locator and wait patterns:
-	- Generated selectors may be syntactically valid but not stable enough in real devices.
-	- We harden locators and waits based on repeated execution evidence.
-- Reporting and pipeline assumptions:
-	- AI-generated reporting setup can assume artifact versions/paths that differ by organization.
-	- We align report generation with repository standards and CI constraints.
-
-Decision: AI is used as an accelerator, not as final authority. Any non-trivial generated output must be validated through local reruns, evidence review, and environment-specific hardening before acceptance.
+Decision: AI is a productivity accelerator, but every generated change is reviewed with runnable validation and evidence before acceptance.
 
 ## 3. What We Would Add With More Time (Description Only)
 
-- Cross-platform abstraction layer to support Android and iOS page locators from one page contract.
+- Complete iOS implementation behind the added IOSDriverInitializer stub and route page-level locators through a shared platform contract.
 - Stronger flakiness controls:
 	- deterministic wait utilities,
 	- calendar helper component,

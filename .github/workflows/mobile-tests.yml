@@ -81,6 +81,14 @@ jobs:
 
             echo "===== Verifying APK ====="
             curl -fsS --retry 30 --retry-delay 2 --retry-connrefused http://127.0.0.1:4723/status >/dev/null
+
+            test -f apps/app.apk
+
+            echo "===== Running Maven Tests ====="
+            mvn --batch-mode --no-transfer-progress clean test
+
+            echo "===== Generating Allure HTML Report ====="
+            mvn --batch-mode --no-transfer-progress allure:report
       - name: Upload Test Artifacts
         if: always()
         uses: actions/upload-artifact@v4

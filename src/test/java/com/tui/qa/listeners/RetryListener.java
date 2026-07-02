@@ -16,6 +16,9 @@ public class RetryListener implements IAnnotationTransformer {
             Constructor testConstructor,
             Method testMethod) {
 
-        annotation.setRetryAnalyzer(RetryAnalyzer.class);
+        if (testClass != null
+                && "com.tui.qa.runner.TestRunner".equals(testClass.getName())) {
+            annotation.setRetryAnalyzer(RetryAnalyzer.class);
+        }
     }
 }
