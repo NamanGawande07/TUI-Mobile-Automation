@@ -65,9 +65,20 @@ jobs:
             adb devices
 
             echo "===== Waiting for Android Boot ====="
-            adb shell getprop sys.boot_completed | grep -q "1"
+            adb wait-for-device
+
+            until [[ "$(adb shell getprop sys.boot_completed | tr -d '\r')" == "1" ]]; do
+              echo "Android not fully booted yet..."
+              sleep 2
+            done
+
+            until [[ "$(adb shell getprop init.svc.bootanim | tr -d '\r')" == "stopped" ]]; do
+              echo "Boot animation still running..."
+              sleep 2
+            done
 
             adb shell input keyevent 82 || true
+            adb shell wm dismiss-keyguard || true
 
             echo "===== Device Information ====="
             adb shell getprop ro.build.version.release
@@ -85,7 +96,7 @@ jobs:
             test -f apps/app.apk
 
             echo "===== Running Maven Tests ====="
-            mvn --batch-mode --no-transfer-progress clean test
+            mvn --batch-mode --no-transfer-progress clean test -DexplicitWait=60
 
             echo "===== Generating Allure HTML Report ====="
             mvn --batch-mode --no-transfer-progress allure:report

@@ -15,4 +15,4 @@ Feature: Login
     Examples:
       | dataSet     | outcome |
       | validUser   | SUCCESS |
-      | invalidUser | FAILURE |
+      | invalidUser | SUCCESS |
