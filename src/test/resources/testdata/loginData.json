@@ -2,11 +2,11 @@
   "validUser": {
     "username": "admin",
     "password": "password",
-    "dateOfBirth": "01/06/1990"
+    "dateOfBirth": "05/03/1994"
   },
   "invalidUser": {
     "username": "admin",
     "password": "wrong_password",
-    "dateOfBirth": "01/06/1990"
+    "dateOfBirth": "05/03/1994"
   }
 }

@@ -95,7 +95,7 @@ public class SearchResultPage extends BasePage {
     }
 
     public String getHotelsTabLabel() {
-        return getText(hotelsTab).trim();
+        return readTabLabel(hotelsTab);
     }
 
     public boolean isHolidaysTabDisplayed() {
@@ -103,7 +103,59 @@ public class SearchResultPage extends BasePage {
     }
 
     public String getHolidaysTabLabel() {
-        return getText(holidaysTab).trim();
+        return readTabLabel(holidaysTab);
+    }
+
+    private String readTabLabel(By tabLocator) {
+
+        List<WebElement> tabCandidates = driver.findElements(tabLocator);
+
+        for (WebElement tab : tabCandidates) {
+
+            if (!tab.isDisplayed()) {
+                continue;
+            }
+
+            String label = firstNonBlank(
+                    tab.getText(),
+                    tab.getAttribute("text"),
+                    tab.getAttribute("content-desc"),
+                    tab.getAttribute("name")
+            );
+
+            if (!label.isBlank()) {
+                return label;
+            }
+
+            List<WebElement> textNodes = tab.findElements(By.xpath(".//*[@text or @content-desc]"));
+
+            for (WebElement textNode : textNodes) {
+
+                String nodeLabel = firstNonBlank(
+                        textNode.getText(),
+                        textNode.getAttribute("text"),
+                        textNode.getAttribute("content-desc")
+                );
+
+                if (!nodeLabel.isBlank()) {
+                    return nodeLabel;
+                }
+            }
+        }
+
+        return "";
+    }
+
+    private String firstNonBlank(String... values) {
+
+        for (String value : values) {
+
+            if (value != null && !value.isBlank()) {
+                return value.trim();
+            }
+        }
+
+        return "";
     }
 
     // ---------------- Hotel Validation ----------------

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite thread-count="1" parallel="tests" name="Failed suite [TUI Mobile Cucumber Suite]" guice-stage="DEVELOPMENT" verbose="0">
+  <test thread-count="1" parallel="tests" name="Cucumber Scenarios(failed)" verbose="0">
+    <classes>
+      <class name="com.tui.qa.runner.TestRunner">
+        <methods>
+          <include name="setUpClass"/>
+          <include name="runScenario" invocation-numbers="1"/>
+          <include name="tearDownClass"/>
+        </methods>
+      </class> <!-- com.tui.qa.runner.TestRunner -->
+    </classes>
+  </test> <!-- Cucumber Scenarios(failed) -->
+</suite> <!-- Failed suite [TUI Mobile Cucumber Suite] -->

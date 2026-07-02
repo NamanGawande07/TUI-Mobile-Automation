@@ -5,28 +5,19 @@ import com.tui.qa.constants.FrameworkConstants;
 import io.appium.java_client.AppiumBy;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.WebDriverException;
 
 import java.time.LocalDate;
-import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Locale;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class LoginPage extends BasePage {
 
-    private static final int MAX_MONTH_NAVIGATION_ATTEMPTS = 18;
-    private static final DateTimeFormatter MONTH_YEAR_FORMATTER =
-        DateTimeFormatter.ofPattern("MMMM yyyy", Locale.ENGLISH);
-    private static final DateTimeFormatter DATE_TEXT_FORMATTER =
-        DateTimeFormatter.ofPattern("MMMM d, yyyy", Locale.ENGLISH);
-    private static final DateTimeFormatter ALT_DATE_TEXT_FORMATTER =
-        DateTimeFormatter.ofPattern("d MMMM yyyy", Locale.ENGLISH);
-    private static final Pattern MONTH_YEAR_PATTERN =
-        Pattern.compile("(January|February|March|April|May|June|July|August|September|October|November|December)\\s+\\d{4}");
-    private static final int MAX_DATE_SELECTION_ATTEMPTS = 2;
+    private static final DateTimeFormatter DIALOG_TEXT_INPUT_FORMATTER =
+        DateTimeFormatter.ofPattern("MM/dd/yyyy", Locale.ENGLISH);
+    private static final int MAX_DOB_INPUT_ATTEMPTS = 3;
 
     // Login Form
     private final By loginFormRoot = byAnyResourceId("login_form_screen_root");
@@ -34,14 +25,39 @@ public class LoginPage extends BasePage {
     private final By passwordField = byAnyResourceId("password_input_field");
     private final By dateOfBirthField = byAnyResourceId("date_of_birth_field");
         private final By dateOfBirthCalendarIcon =
-            byAnyResourceId("date_of_birth_field_calendar_icon");
+                byAnyResourceId("date_of_birth_field_calendar_icon");
+        private final By dateOfBirthCalendarIconButton =
+                AppiumBy.xpath("//android.view.View[@resource-id='date_of_birth_field_calendar_icon']/android.widget.Button");
+        private final By dateOfBirthFieldFallback =
+                AppiumBy.xpath("//*[contains(@resource-id,'date_of_birth') and (@clickable='true' or @focusable='true')]");
+        private final By dateOfBirthCalendarIconFallback =
+                AppiumBy.xpath("//*[contains(@resource-id,'calendar') and (@clickable='true' or @focusable='true')]");
     private final By submitButton = byAnyResourceId("login_form_submit_button");
-    private final By nextMonthButton =
-            AppiumBy.accessibilityId("Change to next month");
-    private final By previousMonthButton =
-            AppiumBy.accessibilityId("Change to previous month");
+        private final By datePickerDialog = byAnyResourceId("date_of_birth_dialog");
+        private final By dialogDateInputField =
+            AppiumBy.xpath("//android.view.View[@resource-id='date_of_birth_dialog']//android.widget.EditText");
+            private final By dialogAnyEditTextField =
+                AppiumBy.xpath("//android.widget.EditText");
+            private final By focusedEditTextField =
+                AppiumBy.androidUIAutomator(
+                    "new UiSelector().className(\"android.widget.EditText\").focused(true)"
+                );
+        private final By switchToTextInputMode =
+            AppiumBy.accessibilityId("Switch to text input mode");
+        private final By switchToCalendarInputMode =
+            AppiumBy.accessibilityId("Switch to calendar input mode");
+        private final By switchModeFallbackButton =
+            AppiumBy.xpath("//android.view.View[@resource-id='date_of_birth_dialog']//android.view.View[@content-desc='Switch to text input mode']/following-sibling::android.widget.Button");
     private final By confirmButton =
             byAnyResourceId("date_of_birth_dialog_confirm_button");
+        private final By confirmButtonChild =
+            AppiumBy.xpath("//android.view.View[@resource-id='date_of_birth_dialog_confirm_button']/android.widget.Button");
+        private final By systemConfirmButton =
+            AppiumBy.id("android:id/button1");
+        private final By textConfirmButton =
+            AppiumBy.androidUIAutomator(
+                "new UiSelector().className(\"android.widget.Button\").textMatches(\"(?i)ok|done|confirm\")"
+            );
 
     private static By byAnyResourceId(String resourceId) {
 
@@ -65,123 +81,127 @@ public class LoginPage extends BasePage {
 
     public LoginPage enterPassword(String password) {
         type(passwordField, password);
+        dismissKeyboardIfPresent();
         return this;
     }
 
     public LoginPage selectDateOfBirth(String dateOfBirth) {
 
         LocalDate targetDate = resolveTargetDate(dateOfBirth);
-        YearMonth targetMonth = YearMonth.from(targetDate);
+        openDatePickerDialog();
+        waitForVisibility(datePickerDialog);
+        ensureDialogTextInputMode();
+        typeDateInDialog(targetDate);
+        confirmDateSelectionIfNeeded();
 
-        for (int selectionAttempt = 0; selectionAttempt < MAX_DATE_SELECTION_ATTEMPTS; selectionAttempt++) {
-
-            click(dateOfBirthField);
-
-            if (driver.findElements(confirmButton).isEmpty()) {
-                click(dateOfBirthCalendarIcon);
-            }
-
-            waitForVisibility(confirmButton);
-
-            int navigationAttempts = 0;
-
-            while (navigationAttempts < MAX_MONTH_NAVIGATION_ATTEMPTS) {
-
-                YearMonth visibleMonth = readVisibleMonth();
-
-                if (visibleMonth != null && visibleMonth.equals(targetMonth)) {
-                    break;
-                }
-
-                if (visibleMonth != null && visibleMonth.isAfter(targetMonth)) {
-                    click(previousMonthButton);
-                } else {
-                    click(nextMonthButton);
-                }
-
-                navigationAttempts++;
-            }
-
-            if (clickTargetDate(targetDate)) {
-                click(confirmButton);
-                return this;
-            }
-
-            YearMonth visibleMonth = readVisibleMonth();
-
-            if (visibleMonth != null
-                    && visibleMonth.equals(targetMonth)
-                    && clickDayCellWhenTargetMonthVisible(targetDate.getDayOfMonth())) {
-                click(confirmButton);
-                return this;
-            }
-
-            driver.navigate().back();
-        }
-
-        throw new IllegalStateException("Unable to select date of birth: " + targetDate);
+        return this;
     }
 
-    private WebElement findTargetDateByContentDesc(LocalDate targetDate) {
+    private void ensureDialogTextInputMode() {
 
-        List<WebElement> nodesWithContentDesc = driver.findElements(
-                AppiumBy.xpath("//*[@content-desc]")
-        );
+        // When this element is visible, picker is already in text mode.
+        if (isDisplayed(switchToCalendarInputMode)) {
+            return;
+        }
 
-        for (WebElement element : nodesWithContentDesc) {
-            String contentDesc = element.getAttribute("content-desc");
+        if (clickIfPresent(switchToTextInputMode)
+                || clickIfPresent(switchModeFallbackButton)) {
+            return;
+        }
 
-            if (contentDesc == null || contentDesc.isBlank()) {
+        throw new IllegalStateException("Unable to switch date picker to text input mode.");
+    }
+
+    private void typeDateInDialog(LocalDate targetDate) {
+
+        String dateValue = targetDate.format(DIALOG_TEXT_INPUT_FORMATTER);
+        String dateDigits = digitsOnly(dateValue);
+
+        for (int attempt = 1; attempt <= MAX_DOB_INPUT_ATTEMPTS; attempt++) {
+
+            WebElement input = findDialogInputElement();
+            input.click();
+
+            clearAndType(input, dateDigits);
+
+            if (!isDatePresentInDialogInput(dateValue)) {
+                typeUsingFocusedField(dateDigits);
+            }
+
+            dismissKeyboardIfPresent();
+
+            if (isDatePresentInDialogInput(dateValue)) {
+                return;
+            }
+        }
+
+        throw new IllegalStateException("Date value was not populated in DOB dialog input.");
+    }
+
+    private WebElement findDialogInputElement() {
+
+        List<WebElement> primaryInputs = driver.findElements(dialogDateInputField);
+
+        for (WebElement input : primaryInputs) {
+            if (input.isDisplayed() && input.isEnabled()) {
+                return input;
+            }
+        }
+
+        List<WebElement> fallbackInputs = driver.findElements(dialogAnyEditTextField);
+
+        for (WebElement input : fallbackInputs) {
+            if (input.isDisplayed() && input.isEnabled()) {
+                return input;
+            }
+        }
+
+        throw new IllegalStateException("DOB dialog input field is not available.");
+    }
+
+    private void clearAndType(WebElement input, String dateValue) {
+
+        try {
+            input.clear();
+        } catch (Exception ignored) {
+            // Continue and attempt to overwrite.
+        }
+
+        input.sendKeys(dateValue);
+    }
+
+    private void typeUsingFocusedField(String dateValue) {
+
+        List<WebElement> focusedInputs = driver.findElements(focusedEditTextField);
+
+        if (focusedInputs.isEmpty()) {
+            return;
+        }
+
+        WebElement focused = focusedInputs.get(0);
+
+        clearAndType(focused, dateValue);
+    }
+
+    private boolean isDatePresentInDialogInput(String expectedDate) {
+
+        String expectedDigits = digitsOnly(expectedDate);
+
+        List<WebElement> inputs = driver.findElements(dialogAnyEditTextField);
+
+        for (WebElement input : inputs) {
+
+            if (!input.isDisplayed()) {
                 continue;
             }
 
-            String normalized = contentDesc
-                    .replace(",", " ")
-                    .replaceAll("\\s+", " ")
-                    .toLowerCase(Locale.ENGLISH)
-                    .trim();
+            String text = safeAttr(input, "text");
+            String contentDesc = safeAttr(input, "content-desc");
+            String value = safeAttr(input, "value");
 
-                String monthName = targetDate.getMonth().name().toLowerCase(Locale.ENGLISH);
-                monthName = monthName.substring(0, 1).toUpperCase(Locale.ENGLISH)
-                    + monthName.substring(1).toLowerCase(Locale.ENGLISH);
-
-                int targetDay = targetDate.getDayOfMonth();
-                int targetMonth = targetDate.getMonthValue();
-                int targetYear = targetDate.getYear();
-
-                boolean hasTargetYear =
-                    normalized.matches(".*(^|\\D)" + targetYear + "(\\D|$).*");
-                boolean hasTargetDay =
-                    normalized.matches(".*(^|\\D)0?" + targetDay + "(\\D|$).*");
-                boolean hasTargetMonthText =
-                    normalized.contains(monthName.toLowerCase(Locale.ENGLISH));
-                boolean hasTargetMonthNumeric =
-                    normalized.matches(".*(^|\\D)0?" + targetMonth + "(\\D|$).*");
-
-                if (hasTargetYear
-                    && hasTargetDay
-                    && (hasTargetMonthText || hasTargetMonthNumeric)
-                    && element.isDisplayed()
-                    && element.isEnabled()) {
-                return element;
-            }
-        }
-
-        return null;
-    }
-
-            private boolean clickDayCellWhenTargetMonthVisible(int targetDay) {
-
-            String targetDayText = String.valueOf(targetDay);
-            String targetDayPadded = String.format("%02d", targetDay);
-
-        List<WebElement> dayCells = driver.findElements(
-                AppiumBy.xpath("//*[@text='" + targetDayText + "' or @text='" + targetDayPadded + "']")
-        );
-
-        for (WebElement dayCell : dayCells) {
-            if (dayCell.isDisplayed() && dayCell.isEnabled()) {
-                dayCell.click();
+            if (matchesExpectedDigits(text, expectedDigits)
+                    || matchesExpectedDigits(contentDesc, expectedDigits)
+                    || matchesExpectedDigits(value, expectedDigits)) {
                 return true;
             }
         }
@@ -189,38 +209,165 @@ public class LoginPage extends BasePage {
         return false;
     }
 
-    private boolean clickTargetDate(LocalDate targetDate) {
+    private boolean matchesExpectedDigits(String candidate, String expectedDigits) {
 
-        String dateText = targetDate.format(DATE_TEXT_FORMATTER);
-        String altDateText = targetDate.format(ALT_DATE_TEXT_FORMATTER);
-
-        By[] candidateLocators = new By[] {
-                AppiumBy.androidUIAutomator("new UiSelector().textContains(\"" + dateText + "\")"),
-                AppiumBy.androidUIAutomator("new UiSelector().descriptionContains(\"" + dateText + "\")"),
-                AppiumBy.androidUIAutomator("new UiSelector().textContains(\"" + altDateText + "\")"),
-                AppiumBy.androidUIAutomator("new UiSelector().descriptionContains(\"" + altDateText + "\")")
-        };
-
-        for (By locator : candidateLocators) {
-            List<WebElement> matches = driver.findElements(locator);
-
-            for (WebElement match : matches) {
-                if (match.isDisplayed() && match.isEnabled()) {
-                    match.click();
-                    return true;
-                }
-            }
+        if (candidate == null || candidate.isBlank()) {
+            return false;
         }
 
-        WebElement byContentDesc = findTargetDateByContentDesc(targetDate);
+        return digitsOnly(candidate).contains(expectedDigits);
+    }
 
-        if (byContentDesc != null) {
-            byContentDesc.click();
-            return true;
+    private String safeAttr(WebElement element, String name) {
+
+        try {
+            String value = element.getAttribute(name);
+            return value == null ? "" : value;
+        } catch (Exception ignored) {
+            return "";
+        }
+    }
+
+    private String digitsOnly(String text) {
+
+        return text.replaceAll("\\D", "");
+    }
+
+    private void confirmDateSelectionIfNeeded() {
+
+        if (clickIfPresent(confirmButtonChild)
+                || clickIfPresent(confirmButton)
+                || clickIfPresent(systemConfirmButton)
+                || clickIfPresent(textConfirmButton)) {
+            return;
+        }
+
+        // Some picker variants auto-apply selection with no confirm CTA.
+    }
+
+    private void openDatePickerDialog() {
+
+        dismissKeyboardIfPresent();
+
+        if (clickIfPresent(dateOfBirthCalendarIconButton)) {
+            return;
+        }
+
+        if (clickIfPresent(dateOfBirthCalendarIcon)) {
+            return;
+        }
+
+        if (clickIfPresent(dateOfBirthField)) {
+            return;
+        }
+
+        try {
+            click(dateOfBirthField);
+            return;
+        } catch (RuntimeException ignored) {
+            // Fall back to alternate strategies when the primary click is blocked.
+        }
+
+        try {
+            click(dateOfBirthCalendarIcon);
+            return;
+        } catch (RuntimeException ignored) {
+            // Fall back to alternate strategies when the icon click is unavailable.
+        }
+
+        if (clickDatePickerByScrollableSearch()) {
+            return;
+        }
+
+        if (clickIfPresent(dateOfBirthField)
+                || clickIfPresent(dateOfBirthCalendarIcon)
+                || clickIfPresent(dateOfBirthFieldFallback)
+                || clickIfPresent(dateOfBirthCalendarIconFallback)
+                || clickFirstMatchingNodeWithText("date")
+                || clickFirstMatchingNodeWithText("birth")) {
+            return;
+        }
+
+        throw new IllegalStateException("Unable to open date picker dialog.");
+    }
+
+    private boolean clickDatePickerByScrollableSearch() {
+
+        By[] locators = new By[] {
+                dateOfBirthField,
+                dateOfBirthCalendarIcon,
+                dateOfBirthFieldFallback,
+                dateOfBirthCalendarIconFallback
+        };
+
+        for (By locator : locators) {
+
+            try {
+                driver.findElement(
+                        AppiumBy.androidUIAutomator(
+                                "new UiScrollable(new UiSelector().scrollable(true)).scrollIntoView(new UiSelector().resourceIdMatches(\".*date_of_birth.*\"))"
+                        )
+                );
+            } catch (Exception ignored) {
+                // Continue to direct locator click attempts.
+            }
+
+            if (clickIfPresent(locator)) {
+                return true;
+            }
         }
 
         return false;
     }
+
+    private void dismissKeyboardIfPresent() {
+
+        try {
+            driver.executeScript("mobile: hideKeyboard");
+        } catch (WebDriverException ignored) {
+            // Keyboard may already be hidden on some devices/emulators.
+        }
+    }
+
+    private boolean clickIfPresent(By locator) {
+
+        List<WebElement> candidates = driver.findElements(locator);
+
+        for (WebElement candidate : candidates) {
+            if (candidate.isDisplayed() && candidate.isEnabled()) {
+                candidate.click();
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean clickFirstMatchingNodeWithText(String textFragment) {
+
+        List<WebElement> nodes = driver.findElements(
+                AppiumBy.xpath("//*[@text or @content-desc]")
+        );
+
+        for (WebElement node : nodes) {
+
+            String text = node.getAttribute("text");
+            String contentDesc = node.getAttribute("content-desc");
+
+            String merged = ((text == null ? "" : text) + " "
+                    + (contentDesc == null ? "" : contentDesc)).toLowerCase(Locale.ENGLISH);
+
+            if (merged.contains(textFragment.toLowerCase(Locale.ENGLISH))
+                    && node.isDisplayed()
+                    && node.isEnabled()) {
+                node.click();
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 
     private LocalDate resolveTargetDate(String providedDate) {
 
@@ -253,35 +400,6 @@ public class LoginPage extends BasePage {
         throw new IllegalStateException(
                 "Unsupported date format for dateOfBirth: " + candidate
         );
-    }
-
-    private YearMonth readVisibleMonth() {
-
-        List<WebElement> nodesWithContentDesc = driver.findElements(
-                AppiumBy.xpath("//*[@content-desc]")
-        );
-
-        for (WebElement element : nodesWithContentDesc) {
-
-            String contentDesc = element.getAttribute("content-desc");
-
-            if (contentDesc == null || contentDesc.isBlank()) {
-                continue;
-            }
-
-            Matcher matcher = MONTH_YEAR_PATTERN.matcher(contentDesc);
-
-            if (matcher.find()) {
-
-                try {
-                    return YearMonth.parse(matcher.group(0), MONTH_YEAR_FORMATTER);
-                } catch (DateTimeParseException ignored) {
-                    // Continue to check other nodes.
-                }
-            }
-        }
-
-        return null;
     }
 
     public LoginPage tapSubmit() {

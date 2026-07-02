@@ -1,0 +1,10 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"passed","Thu Jul 02 21:19:00 IST 2026","Thu Jul 02 21:19:50 IST 2026","50321","","Search Results","","Verify Holidays tab","","Verify Holidays tab",""
+"failed","Thu Jul 02 21:17:20 IST 2026","Thu Jul 02 21:18:21 IST 2026","60714","","Login","","Login outcome by externalized credentials","","Login outcome by externalized credentials","  As a TUI user
+  I want to login to the application
+  So that I can view travel search results"
+"passed","Thu Jul 02 21:18:21 IST 2026","Thu Jul 02 21:19:00 IST 2026","39060","","Search Results","","Verify Hotels tab","","Verify Hotels tab",""
+"passed","Thu Jul 02 21:16:41 IST 2026","Thu Jul 02 21:17:20 IST 2026","38789","","Login","","Login outcome by externalized credentials","","Login outcome by externalized credentials","  As a TUI user
+  I want to login to the application
+  So that I can view travel search results"
+"passed","Thu Jul 02 21:19:50 IST 2026","Thu Jul 02 21:20:30 IST 2026","39427","","Search Results","","Verify hotel lazy loading","","Verify hotel lazy loading",""
