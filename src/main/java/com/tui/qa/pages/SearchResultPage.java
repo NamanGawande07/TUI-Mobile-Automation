@@ -112,78 +112,86 @@ public class SearchResultPage extends BasePage {
         return readTabLabel(holidaysTab);
     }
 
-    private String readTabLabel(By tabLocator) {
+  private String readTabLabel(By tabLocator) {
 
     logger.info("Reading tab label for locator: {}", tabLocator);
 
-    WebElement tab;
+    WebElement tab = find(tabLocator);
 
-    try {
+    logger.info("Parent getText()      : [{}]", tab.getText());
+    logger.info("Parent text attribute : [{}]", tab.getAttribute("text"));
+    logger.info("Parent content-desc   : [{}]", tab.getAttribute("content-desc"));
+    logger.info("Parent name           : [{}]", tab.getAttribute("name"));
 
-        // Wait until the tab is visible instead of immediately searching
-        tab = find(tabLocator);
+    // Read from TextView first
+    List<WebElement> textViews =
+            tab.findElements(By.className("android.widget.TextView"));
 
-    } catch (Exception exception) {
+    logger.info("Found {} TextView(s)", textViews.size());
 
-        logger.error("Unable to locate tab: {}", tabLocator);
-logger.info("Page Source:\n{}", driver.getPageSource());
-        return "";
-    }
+    for (WebElement textView : textViews) {
 
-    String label = firstNonBlank(
-            tab.getText(),
-            tab.getAttribute("text"),
-            tab.getAttribute("content-desc"),
-            tab.getAttribute("name")
-    );
+        String text = textView.getText();
 
-    if (!label.isBlank()) {
+        logger.info("Child TextView text : [{}]", text);
 
-        logger.info("Tab label found directly: {}", label);
+        if (text != null
+                && !text.trim().isEmpty()
+                && !"null".equalsIgnoreCase(text.trim())) {
 
-        return label;
-    }
-
-    List<WebElement> childElements =
-            tab.findElements(By.xpath(".//*"));
-
-    logger.info("Searching {} child elements for tab label",
-            childElements.size());
-
-    for (WebElement child : childElements) {
-
-        label = firstNonBlank(
-                child.getText(),
-                child.getAttribute("text"),
-                child.getAttribute("content-desc"),
-                child.getAttribute("name")
-        );
-
-        if (!label.isBlank()) {
-
-            logger.info("Tab label found in child element: {}", label);
-
-            return label;
+            return text.trim();
         }
     }
 
-    logger.warn("No label found for tab: {}", tabLocator);
-    logger.debug("Page Source:\n{}", driver.getPageSource());
+    // Fallback to content-desc
+    List<WebElement> childViews =
+            tab.findElements(By.className("android.view.View"));
+
+    logger.info("Found {} child View(s)", childViews.size());
+
+    for (WebElement child : childViews) {
+
+        String desc = child.getAttribute("content-desc");
+
+        logger.info("Child content-desc : [{}]", desc);
+
+        if (desc != null
+                && !desc.trim().isEmpty()
+                && !"null".equalsIgnoreCase(desc.trim())) {
+
+            return desc.trim();
+        }
+    }
+
+    logger.error("Unable to determine tab label");
+    logger.info(driver.getPageSource());
 
     return "";
 }
 
-    private String firstNonBlank(String... values) {
+  private String firstNonBlank(String... values) {
 
-        for (String value : values) {
+    for (String value : values) {
 
-            if (value != null && !value.isBlank()) {
-                return value.trim();
-            }
+        if (value == null) {
+            continue;
         }
 
-        return "";
+        value = value.trim();
+
+        if (value.isEmpty()) {
+            continue;
+        }
+
+        if ("null".equalsIgnoreCase(value)) {
+            continue;
+        }
+
+        return value;
     }
+
+    return "";
+}
 
     // ---------------- Hotel Validation ----------------
 
