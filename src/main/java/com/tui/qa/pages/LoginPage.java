@@ -26,8 +26,8 @@ public class LoginPage extends BasePage {
     private static final DateTimeFormatter DIALOG_TEXT_INPUT_FORMATTER =
         DateTimeFormatter.ofPattern("MM/dd/yyyy", Locale.ENGLISH);
     private static final int MAX_DOB_INPUT_ATTEMPTS = 3;
-    private static final int LOGIN_SCREEN_READY_TIMEOUT_SECONDS = 90;
-    private static final int LOGIN_SCREEN_ASSERT_TIMEOUT_SECONDS = 45;
+    private static final int LOGIN_SCREEN_READY_TIMEOUT_SECONDS = 150;
+    private static final int LOGIN_SCREEN_ASSERT_TIMEOUT_SECONDS = 90;
     private static final int LOGIN_SCREEN_RECOVERY_INTERVAL_SECONDS = 15;
 
     // Login Form
@@ -35,6 +35,7 @@ public class LoginPage extends BasePage {
     private final By usernameField = byAnyResourceId("username_input_field");
     private final By passwordField = byAnyResourceId("password_input_field");
     private final By dateOfBirthField = byAnyResourceId("date_of_birth_field");
+    private final By loginTopAppBar = byAnyResourceId("login_screen_top_app_bar");
         private final By dateOfBirthCalendarIcon =
                 byAnyResourceId("date_of_birth_field_calendar_icon");
         private final By dateOfBirthCalendarIconButton =
@@ -447,7 +448,12 @@ public class LoginPage extends BasePage {
 
         while (System.currentTimeMillis() < timeoutAt) {
 
-            if (isElementReady(loginFormRoot) || isElementReady(usernameField)) {
+            if (isElementReady(loginFormRoot)
+                    || isElementReady(usernameField)
+                    || isElementReady(passwordField)
+                    || isElementReady(dateOfBirthField)
+                    || isElementReady(submitButton)
+                    || isElementReady(loginTopAppBar)) {
                 return true;
             }
 

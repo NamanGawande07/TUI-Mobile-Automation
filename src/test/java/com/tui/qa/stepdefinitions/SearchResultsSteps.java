@@ -6,9 +6,7 @@ import com.tui.qa.pages.SearchResultPage;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
-import java.time.Duration;
 import java.util.List;
-import java.util.function.Supplier;
 
 import org.testng.Assert;
 
@@ -37,10 +35,8 @@ private List<String> previousHotels;
                 "Hotel results are not displayed."
         );
 
-        String hotelsTabLabel = waitForNonBlankLabel(searchResultPage::getHotelsTabLabel, Duration.ofSeconds(8));
-
         Assert.assertEquals(
-            hotelsTabLabel,
+            searchResultPage.getHotelsTabLabel(),
             searchData.getHotelsTabLabel(),
             "Hotels tab label does not match expected test data."
         );
@@ -62,36 +58,11 @@ private List<String> previousHotels;
                 "Holiday results are not displayed."
         );
 
-        String holidaysTabLabel = waitForNonBlankLabel(searchResultPage::getHolidaysTabLabel, Duration.ofSeconds(8));
-
         Assert.assertEquals(
-            holidaysTabLabel,
+            searchResultPage.getHolidaysTabLabel(),
             searchData.getHolidaysTabLabel(),
             "Holidays tab label does not match expected test data."
         );
-    }
-
-    private String waitForNonBlankLabel(Supplier<String> labelSupplier, Duration timeout) {
-
-        long endTime = System.currentTimeMillis() + timeout.toMillis();
-
-        while (System.currentTimeMillis() < endTime) {
-
-            String label = labelSupplier.get();
-
-            if (label != null && !label.isBlank()) {
-                return label;
-            }
-
-            try {
-                Thread.sleep(300);
-            } catch (InterruptedException interruptedException) {
-                Thread.currentThread().interrupt();
-                break;
-            }
-        }
-
-        return labelSupplier.get();
     }
 
     // All
