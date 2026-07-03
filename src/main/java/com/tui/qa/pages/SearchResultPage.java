@@ -11,7 +11,13 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.time.Duration;
 
+import com.tui.qa.utils.LoggerUtil;
+import org.apache.logging.log4j.Logger;
+
 public class SearchResultPage extends BasePage {
+
+    private static final Logger logger =
+        LoggerUtil.getLogger(SearchResultPage.class);
 
     private static final String APP_ID_PREFIX =
         FrameworkConstants.APP_PACKAGE + ":id/";
@@ -108,43 +114,64 @@ public class SearchResultPage extends BasePage {
 
     private String readTabLabel(By tabLocator) {
 
-        List<WebElement> tabCandidates = driver.findElements(tabLocator);
+    logger.info("Reading tab label for locator: {}", tabLocator);
 
-        for (WebElement tab : tabCandidates) {
+    WebElement tab;
 
-            if (!tab.isDisplayed()) {
-                continue;
-            }
+    try {
 
-            String label = firstNonBlank(
-                    tab.getText(),
-                    tab.getAttribute("text"),
-                    tab.getAttribute("content-desc"),
-                    tab.getAttribute("name")
-            );
+        // Wait until the tab is visible instead of immediately searching
+        tab = find(tabLocator);
 
-            if (!label.isBlank()) {
-                return label;
-            }
+    } catch (Exception exception) {
 
-            List<WebElement> textNodes = tab.findElements(By.xpath(".//*[@text or @content-desc]"));
-
-            for (WebElement textNode : textNodes) {
-
-                String nodeLabel = firstNonBlank(
-                        textNode.getText(),
-                        textNode.getAttribute("text"),
-                        textNode.getAttribute("content-desc")
-                );
-
-                if (!nodeLabel.isBlank()) {
-                    return nodeLabel;
-                }
-            }
-        }
-
+        logger.error("Unable to locate tab: {}", tabLocator);
+logger.info("Page Source:\n{}", driver.getPageSource());
         return "";
     }
+
+    String label = firstNonBlank(
+            tab.getText(),
+            tab.getAttribute("text"),
+            tab.getAttribute("content-desc"),
+            tab.getAttribute("name")
+    );
+
+    if (!label.isBlank()) {
+
+        logger.info("Tab label found directly: {}", label);
+
+        return label;
+    }
+
+    List<WebElement> childElements =
+            tab.findElements(By.xpath(".//*"));
+
+    logger.info("Searching {} child elements for tab label",
+            childElements.size());
+
+    for (WebElement child : childElements) {
+
+        label = firstNonBlank(
+                child.getText(),
+                child.getAttribute("text"),
+                child.getAttribute("content-desc"),
+                child.getAttribute("name")
+        );
+
+        if (!label.isBlank()) {
+
+            logger.info("Tab label found in child element: {}", label);
+
+            return label;
+        }
+    }
+
+    logger.warn("No label found for tab: {}", tabLocator);
+    logger.debug("Page Source:\n{}", driver.getPageSource());
+
+    return "";
+}
 
     private String firstNonBlank(String... values) {
 
@@ -161,37 +188,33 @@ public class SearchResultPage extends BasePage {
     // ---------------- Hotel Validation ----------------
 
     public boolean isHotelDisplayed() {
-        return !driver.findElements(hotelNames).isEmpty();
-    }
 
-    public String getHotelName() {
-        return driver.findElements(hotelNames)
-                .get(0)
-                .getText();
+    try {
+        find(hotelNames);
+        return true;
+    } catch (Exception exception) {
+        return false;
     }
+}
+
+  public String getHotelName() {
+    return find(hotelNames).getText();
+}
 
     public String getHotelDestination() {
-        return driver.findElements(hotelDestinations)
-                .get(0)
-                .getText();
+        return find(hotelDestinations).getText();
     }
 
     public String getHotelRating() {
-        return driver.findElements(hotelRatings)
-                .get(0)
-                .getText();
+        return find(hotelRatings).getText();
     }
 
     public String getHotelBoardType() {
-        return driver.findElements(hotelBoardTypes)
-                .get(0)
-                .getText();
+        return find(hotelBoardTypes).getText();
     }
 
     public String getHotelPrice() {
-        return driver.findElements(hotelPrices)
-                .get(0)
-                .getText();
+        return find(hotelPrices).getText();
     }
 
     // ---------------- Holiday Validation ----------------
@@ -233,11 +256,9 @@ public class SearchResultPage extends BasePage {
         return isHolidaysTabDisplayed();
     }
 
-    public String getHolidayName() {
-        return driver.findElements(holidayNames)
-                .get(0)
-                .getText();
-    }
+   public String getHolidayName() {
+    return find(holidayNames).getText();
+}
 
     // ---------------- Scenario 5 ----------------
 
@@ -262,8 +283,7 @@ public class SearchResultPage extends BasePage {
 
     public void scrollHotelList() {
 
-        WebElement element = driver.findElement(hotelList);
-
+WebElement element = find(hotelList);
         driver.executeScript(
                 "mobile: scrollGesture",
                 Map.of(
@@ -294,38 +314,34 @@ public class SearchResultPage extends BasePage {
 
     public boolean isHotelNameDisplayed() {
 
-        List<WebElement> hotels =
-                driver.findElements(hotelNames);
-
-        return !hotels.isEmpty()
-                && !hotels.get(0).getText().isBlank();
+        try {
+            return !find(hotelNames).getText().isBlank();
+        } catch (Exception exception) {
+            return false;
+        }
     }
 
     public boolean isHotelPriceDisplayed() {
 
-        List<WebElement> prices =
-                driver.findElements(hotelPrices);
-
-        return !prices.isEmpty()
-                && !prices.get(0).getText().isBlank();
+        try {
+            return !find(hotelPrices).getText().isBlank();
+        } catch (Exception exception) {
+            return false;
+        }
     }
 
     public boolean isHotelPriceValid() {
 
-        String price = driver.findElements(hotelPrices)
-                .get(0)
-                .getText();
+    String price = find(hotelPrices).getText();
 
-        return price.matches("^\\$\\d+(,\\d{3})*$");
-    }
+    return price.matches("^\\$\\d+(,\\d{3})*$");
+}
 
-    public boolean isHotelPriceValid(String regex) {
+   public boolean isHotelPriceValid(String regex) {
 
-        String price = driver.findElements(hotelPrices)
-                .get(0)
-                .getText();
+    String price = find(hotelPrices).getText();
 
-        return price.matches(regex);
-    }
+    return price.matches(regex);
+}
 
 }

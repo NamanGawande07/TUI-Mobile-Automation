@@ -495,6 +495,7 @@ public class LoginPage extends BasePage {
         return false;
     }
 
+    @SuppressWarnings("deprecation")
     private void attemptLoginScreenRecovery() {
 
         try {
